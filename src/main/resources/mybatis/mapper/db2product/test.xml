@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.webapp.dao.db2product.TestProductDao">
+	<select id="getProductStock" resultType="com.mycompany.webapp.vo.ProductStock">
+		select *
+		from product_stock
+		fetch first 10 rows only
+	</select>
+</mapper>
