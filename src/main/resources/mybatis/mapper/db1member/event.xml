@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.webapp.dao.db1member.EventDao">
+	<select id="selectAllEvents" resultType="com.mycompany.webapp.vo.Event">
+		select * from EVENT
+	</select>
+	
+	<insert id="addEvent" parameterType="com.mycompany.webapp.vo.Event">
+		insert into event (eno, etitle, econtent,eissue_date, eexpire_date, elimit_count, ecount, eimg, estatus)
+		values ((eno_seq.nextval),#{etitle},#{econtent},#{eissueDate},#{eexpireDate}, #{elimitCount},0,#{eimg},0)
+	</insert>
+</mapper>
