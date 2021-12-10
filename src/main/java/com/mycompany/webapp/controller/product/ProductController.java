@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mycompany.webapp.dto.product.Depth1;
 import com.mycompany.webapp.dto.product.Depth2;
 import com.mycompany.webapp.dto.product.Depth3;
-import com.mycompany.webapp.dto.product.ProductDto;
+import com.mycompany.webapp.dto.product.ProductResult;
 import com.mycompany.webapp.dto.product.SearchForm;
 import com.mycompany.webapp.service.product.SearchService;
 
@@ -54,10 +54,10 @@ public class ProductController {
 	}
 	
 	@PostMapping("/search/result")
-	public List<ProductDto> getResult(@RequestBody SearchForm searchForm) {
+	public ProductResult getResult(@RequestBody SearchForm searchForm) {
 		log.info("searchForm = " + searchForm);
-		List<ProductDto> productList = searchService.selectProductList(searchForm);
+		ProductResult productResult = searchService.selectProductList(searchForm);
 //		log.info("productList = " + productList);
-		return productList;
+		return productResult;
 	}
 }

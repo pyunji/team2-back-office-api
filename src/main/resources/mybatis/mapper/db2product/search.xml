@@ -14,10 +14,10 @@
 			</if>
 			<if test = 'pstockid == null or pstockid eq ""'>
 				<if test='pname != null and pname neq ""'>
-				AND pname like #{pname}
+				AND upper(pname) like upper(#{pname})
 				</if>
 				<if test='bname != null and bname neq ""'>
-				AND pname like #{bname}
+				AND upper(bname) like upper(#{bname})
 				</if>
 				<if test='startRegDate != null and startRegDate neq ""'>
 				<![CDATA[AND reg_date >= #{startRegDate}]]>
@@ -40,7 +40,50 @@
 				<if test='d3name != null and d3name neq ""'>
 				AND d3name = #{d3name}
 				</if>
-				
+			</if>
+		</where>
+		offset #{pager.startRowIndex} rows
+		fetch next #{pager.rowsPerPage} rows only
+	</select>
+	<select id="getTotalProductNum" parameterType="com.mycompany.webapp.dto.product.SearchForm" resultType="int"> 
+	select count(*)
+	from product_stock join product_color using (pcolorid)
+		join product_common using(pcommonid)
+		join brand using(bno)
+		join product_category using(pcommonid)
+		join category using(catno)
+		<where>
+			<if test = 'pstockid != null and pstockid neq ""'>
+			AND pstockid = #{pstockid}
+			</if>
+			<if test = 'pstockid == null or pstockid eq ""'>
+				<if test='pname != null and pname neq ""'>
+				AND upper(pname) like upper(#{pname})
+				</if>
+				<if test='bname != null and bname neq ""'>
+				AND upper(bname) like upper(#{bname})
+				</if>
+				<if test='startRegDate != null and startRegDate neq ""'>
+				<![CDATA[AND reg_date >= #{startRegDate}]]>
+				</if>
+				<if test='endRegDate != null and endRegDate neq ""'>
+				<![CDATA[AND reg_date <= #{endRegDate}]]>
+				</if>
+				<if test='minStock != null and minStock neq ""'>
+				<![CDATA[AND stock >= #{minStock}]]>
+				</if>
+				<if test='maxStock != null and maxStock neq ""'>
+				<![CDATA[AND stock <= #{maxStock}]]>
+				</if>
+				<if test='d1name != null and d1name neq ""'>
+				AND d1name = #{d1name}
+				</if>
+				<if test='d2name != null and d2name neq ""'>
+				AND d2name = #{d2name}
+				</if>
+				<if test='d3name != null and d3name neq ""'>
+				AND d3name = #{d3name}
+				</if>
 			</if>
 		</where>
 	</select>
