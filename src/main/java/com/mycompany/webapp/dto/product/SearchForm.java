@@ -1,19 +1,17 @@
 package com.mycompany.webapp.dto.product;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
-public class Search {
+public class SearchForm {
 	String pstockid;
 	String pname;
 	String bname;
-	Date startRegDate;
-	Date endRegDate;
+	String startRegDate;
+	String endRegDate;
 	Integer minStock;
 	Integer maxStock;
-	String Depth1;
-	String Depth2;
-	String Depth3;
+	String d1name;
+	String d2name;
+	String d3name;
 }

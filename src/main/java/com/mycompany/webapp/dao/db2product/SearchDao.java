@@ -7,10 +7,10 @@ import org.apache.ibatis.annotations.Mapper;
 import com.mycompany.webapp.dto.product.Depth1;
 import com.mycompany.webapp.dto.product.Depth2;
 import com.mycompany.webapp.dto.product.Depth3;
+import com.mycompany.webapp.dto.product.ProductDto;
+import com.mycompany.webapp.dto.product.SearchForm;
 
 @Mapper
-public interface DepthDao {
-	public List<Depth1> selectDepth1();
-	public List<Depth2> selectDepth2(String d1name);
-	public List<Depth3> selectDepth3(String d2name);
+public interface SearchDao {
+	public List<ProductDto> selectProductList(SearchForm searchForm);
 }

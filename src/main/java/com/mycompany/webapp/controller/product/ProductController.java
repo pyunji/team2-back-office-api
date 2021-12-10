@@ -6,12 +6,15 @@ import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.webapp.dto.product.Depth1;
 import com.mycompany.webapp.dto.product.Depth2;
 import com.mycompany.webapp.dto.product.Depth3;
+import com.mycompany.webapp.dto.product.ProductDto;
+import com.mycompany.webapp.dto.product.SearchForm;
 import com.mycompany.webapp.service.product.SearchService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductController {
 	
 //	@PostMapping("/search")
-//	public List<ProductList> search(@RequestBody Search search) {
+//	public List<ProductDto> search(@RequestBody Search search) {
 //		
 //	}
 	@Resource SearchService searchService;
@@ -33,20 +36,28 @@ public class ProductController {
 	}
 	
 	@PostMapping("/setdepth2")
-	public List<Depth2> setDepth2(String depth1) {
-		log.info("depth1 = " + depth1);
-		List<Depth2> depth2List = searchService.selectDepth2(depth1);
-		log.info("searchService.selectDepth2(depth1);" + depth2List);
-		log.info("depth2List.getClass() = " + depth2List.getClass());
-		return depth2List;
+	public List<Depth2> setDepth2(String d1name) {
+		log.info("d1name = " + d1name);
+		List<Depth2> d2nameList = searchService.selectDepth2(d1name);
+		log.info("searchService.selectDepth2(d1name);" + d2nameList);
+		log.info("d2nameList.getClass() = " + d2nameList.getClass());
+		return d2nameList;
 	}
 	
 	@PostMapping("/setdepth3")
-	public List<Depth3> setDepth3(String depth2) {
-		log.info("depth2 = " + depth2);
-		List<Depth3> depth3List = searchService.selectDepth3(depth2);
-		log.info("searchService.selectDepth3(depth2);" + depth3List);
-		log.info("depth3List.getClass() = " + depth3List.getClass());
-		return depth3List;
+	public List<Depth3> setDepth3(String d2name) {
+		log.info("d2name = " + d2name);
+		List<Depth3> d3nameList = searchService.selectDepth3(d2name);
+		log.info("searchService.selectDepth3(d2name);" + d3nameList);
+		log.info("d3nameList.getClass() = " + d3nameList.getClass());
+		return d3nameList;
+	}
+	
+	@PostMapping("/search/result")
+	public List<ProductDto> getResult(@RequestBody SearchForm searchForm) {
+		log.info("searchForm = " + searchForm);
+		List<ProductDto> productList = searchService.selectProductList(searchForm);
+//		log.info("productList = " + productList);
+		return productList;
 	}
 }

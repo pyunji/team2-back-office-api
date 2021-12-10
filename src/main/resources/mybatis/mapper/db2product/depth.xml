@@ -8,11 +8,11 @@
 	<select id="selectDepth2" resultType="com.mycompany.webapp.dto.product.Depth2">
 		select distinct d2name 
 		from category
-		where d1name = #{depth1}
+		where d1name = #{d1name}
 	</select>
 	<select id="selectDepth3" resultType="com.mycompany.webapp.dto.product.Depth3">
 		select distinct d3name 
 		from category
-		where d2name = #{depth2}
+		where d2name = #{d2name}
 	</select>
 </mapper>
