@@ -13,4 +13,5 @@ import com.mycompany.webapp.dto.product.SearchForm;
 @Mapper
 public interface SearchDao {
 	public List<ProductDto> selectProductList(SearchForm searchForm);
+	public int getTotalProductNum(SearchForm searchForm);
 }
