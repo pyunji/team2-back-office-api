@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.webapp.dao.db2product.DepthDao">
+	<select id="selectDepth1" resultType="com.mycompany.webapp.dto.product.Depth1">
+		select * from depth1
+		order by d1ord
+	</select>
+	<select id="selectDepth2" resultType="com.mycompany.webapp.dto.product.Depth2">
+		select distinct d2name 
+		from category
+		where d1name = #{d1name}
+	</select>
+	<select id="selectDepth3" resultType="com.mycompany.webapp.dto.product.Depth3">
+		select distinct d3name 
+		from category
+		where d2name = #{d2name}
+	</select>
+</mapper>
