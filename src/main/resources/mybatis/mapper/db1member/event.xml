@@ -4,4 +4,9 @@
 	<select id="selectAllEvents" resultType="com.mycompany.webapp.vo.Event">
 		select * from EVENT
 	</select>
+	
+	<insert id="addEvent" parameterType="com.mycompany.webapp.vo.Event">
+		insert into event (eno, etitle, econtent,eissue_date, eexpire_date, elimit_count, ecount, eimg, estatus)
+		values ((eno_seq.nextval),#{etitle},#{econtent},#{eissueDate},#{eexpireDate}, #{elimitCount},0,#{eimg},0)
+	</insert>
 </mapper>

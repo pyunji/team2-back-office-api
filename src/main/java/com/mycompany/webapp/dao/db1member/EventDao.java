@@ -9,4 +9,5 @@ import com.mycompany.webapp.vo.Event;
 @Mapper
 public interface EventDao {
 	public List<Event> selectAllEvents();
+	public void addEvent(Event event);
 }

@@ -16,4 +16,8 @@ public class EventService {
 	public List<Event> selectAllEvents() {
 		return eventDao.selectAllEvents();
 	}
+	
+	public void addEvent(Event event) {
+		eventDao.addEvent(event);
+	}
 }
