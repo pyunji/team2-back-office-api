@@ -44,6 +44,8 @@
 				</if>
 			</if>
 		</where>
+		offset #{pager.startRowIndex} rows
+		fetch next #{pager.rowsPerPage} rows only
 	</select>
 	
 	<select id="getTotalEventNum" parameterType="com.mycompany.webapp.dto.event.EventSearchForm" resultType="int">
