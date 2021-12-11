@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mycompany.webapp.dto.event.EventResult;
+import com.mycompany.webapp.dto.event.EventSearchForm;
 import com.mycompany.webapp.service.member.EventService;
 import com.mycompany.webapp.vo.Event;
 
@@ -28,9 +30,17 @@ public class EventController {
 	
 	@PostMapping("")
 	public String addEvent(@RequestBody Event event) {
-		log.info("백오피스 addEvent 실행");
-		log.info(event.toString());
+//		log.info("백오피스 addEvent 실행");
+//		log.info(event.toString());
 		eventService.addEvent(event);
 		return "success";
+	}
+	
+	@PostMapping("/result")
+	public EventResult getResult(@RequestBody EventSearchForm searchForm) {
+//		log.info("백오피스 getResult 실행");
+//		log.info(searchForm.toString());
+		EventResult eventResult = eventService.selectEventList(searchForm);
+		return eventResult;
 	}
 }

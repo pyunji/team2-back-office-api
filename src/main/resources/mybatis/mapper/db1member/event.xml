@@ -9,4 +9,76 @@
 		insert into event (eno, etitle, econtent,eissue_date, eexpire_date, elimit_count, ecount, eimg, estatus)
 		values ((eno_seq.nextval),#{etitle},#{econtent},#{eissueDate},#{eexpireDate}, #{elimitCount},0,#{eimg},0)
 	</insert>
+	
+	<select id="selectEventList" parameterType="com.mycompany.webapp.dto.event.EventSearchForm" resultType="com.mycompany.webapp.vo.Event">
+		select *
+		from event
+		<where>
+			<if test='eno != null'>
+				and eno=#{eno}
+			</if>
+			<if test='eno == null'>
+				<if test='etitle !=null and etitle neq ""'>
+					and upper(etitle) like upper(#{etitle})
+				</if>
+				<choose>
+					<when test='startDate != null and startDate neq "" and
+								endDate != null and endDate neq ""'>
+						<![CDATA[and #{endDate} >= eissue_date and #{startDate} <= eexpire_date]]>
+					</when>
+					<when test='startDate != null and startDate neq "" and
+								(endDate == null or endDate eq "")'>
+						<![CDATA[and #{startDate} <= eexpire_date]]>
+					</when>
+					<when test='endDate != null and endDate neq "" and
+								(startDate ==null or startDate eq "")'>
+						<![CDATA[and #{endDate} >= eissue_date]]>
+					</when>
+					<otherwise></otherwise>
+				</choose>
+				<if test='estatus !=null and estatus neq ""'>
+					and estatus in
+					<foreach collection="estatus" item="item" separator="," open="(" close=")">
+						#{item,jdbcType=VARCHAR}
+					</foreach>
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<select id="getTotalEventNum" parameterType="com.mycompany.webapp.dto.event.EventSearchForm" resultType="int">
+		select count(*)
+		from event
+		<where>
+			<if test='eno != null'>
+				and eno=#{eno}
+			</if>
+			<if test='eno == null'>
+				<if test='etitle !=null and etitle neq ""'>
+					and upper(etitle) like upper(#{etitle})
+				</if>
+				<choose>
+					<when test='startDate != null and startDate neq "" and
+								endDate != null and endDate neq ""'>
+						<![CDATA[and #{endDate} >= eissue_date and #{startDate} <= eexpire_date]]>
+					</when>
+					<when test='startDate != null and startDate neq "" and
+								(endDate == null or endDate eq "")'>
+						<![CDATA[and #{startDate} <= eexpire_date]]>
+					</when>
+					<when test='endDate != null and endDate neq "" and
+								(startDate ==null or startDate eq "")'>
+						<![CDATA[and #{endDate} >= eissue_date]]>
+					</when>
+					<otherwise></otherwise>
+				</choose>
+				<if test='estatus !=null and estatus neq ""'>
+					and estatus in
+					<foreach collection="estatus" item="item" separator="," open="(" close=")">
+						#{item,jdbcType=VARCHAR}
+					</foreach>
+				</if>
+			</if>
+		</where>
+	</select>
 </mapper>
