@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.mycompany.webapp.dao.db3orders.OrderSearchDao">
+	<select id="selectOrderList"
+		parameterType="com.mycompany.webapp.dto.order.OrderSearchForm"
+		resultType="com.mycompany.webapp.dto.order.OrderDto">
+		select *
+		from orders join order_item using (oid)
+		<where>
+			<if test='oid != null and oid neq ""'>
+				AND oid = #{oid}
+			</if>
+			<if test='mid != null and mid neq ""'>
+				AND mid = #{mid}
+			</if>
+			<if test='startRegDate != null and startRegDate neq ""'>
+				<![CDATA[AND odate >= #{startRegDate}]]>
+			</if>
+			<if test='endRegDate != null and endRegDate neq ""'>
+				<![CDATA[AND odate <= #{endRegDate}]]>
+			</if>
+
+		</where>
+		offset #{pager.startRowIndex} rows
+		fetch next #{pager.rowsPerPage} rows
+		only
+	</select>
+	<select id="getTotalOrderNum"
+		parameterType="com.mycompany.webapp.dto.order.OrderSearchForm"
+		resultType="int">
+		select count(*)
+		from orders join order_item using (oid)
+		<where>
+		<if test='oid != null and oid neq ""'>
+				AND oid = #{oid}
+			</if>
+			<if test='mid != null and mid neq ""'>
+				AND mid = #{mid}
+			</if>
+			<if test='startRegDate != null and startRegDate neq ""'>
+				<![CDATA[AND odate >= #{startRegDate}]]>
+			</if>
+			<if test='endRegDate != null and endRegDate neq ""'>
+				<![CDATA[AND odate <= #{endRegDate}]]>
+			</if>
+		</where>
+	</select>
+</mapper>
