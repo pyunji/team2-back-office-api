@@ -4,4 +4,90 @@
 	<select id="selectAllMembers" resultType="com.mycompany.webapp.vo.Member">
 		select * from MEMBER
 	</select>
+	
+	<select id="selectMemberList" parameterType="com.mycompany.webapp.dto.member.MemberSearchForm" resultType="com.mycompany.webapp.vo.Member">
+		select *
+		from member
+		<where>
+			<if test='mid != null and mid neq ""'>
+				and mid = #{mid}
+			</if>
+			<if test='mid == null or mid eq ""'>
+				<if test='memail !=null and memail neq ""'>
+					and memail = #{memail}
+				</if>
+				<if test='mname !=null and mname neq ""'>
+					and mname = #{mname}
+				</if>
+				<if test='mphone !=null and mphone neq ""'>
+					and mphone = #{mphone}
+				</if>
+				<if test='startDateforBirth != null and startDateforBirth neq ""'>
+				<![CDATA[and birth >= #{startDateforBirth}]]>
+				</if>
+				<if test='endDateforBirth != null and endDateforBirth neq ""'>
+				<![CDATA[and birth <= #{endDateforBirth}]]>
+				</if>
+				<if test='startDateforSignUp != null and startDateforSignUp neq ""'>
+				<![CDATA[and sign_up_date >= #{startDateforSignUp}]]>
+				</if>
+				<if test='endDateforSignUp != null and endDateforSignUp neq ""'>
+				<![CDATA[and sign_up_date <= #{endDateforSignUp}]]>
+				</if>
+				<if test='gender !=null and gender neq ""'>
+					and gender = #{gender}
+				</if>
+				<if test='grade_level !=null and grade_level neq ""'>
+					and grade_level = #{grade_level}
+				</if>
+				<if test='menabled !=null and menabled neq ""'>
+					and menabled = #{menabled}
+				</if>
+			</if>
+		</where>
+		offset #{pager.startRowIndex} rows
+		fetch next #{pager.rowsPerPage} rows only
+	</select>
+	
+	<select id="getTotalMemberNum" parameterType="com.mycompany.webapp.dto.member.MemberSearchForm" resultType="int">
+		select count(*)
+		from member
+		<where>
+			<if test='mid != null and mid neq ""'>
+				and mid = #{mid}
+			</if>
+			<if test='mid == null or mid eq ""'>
+				<if test='memail !=null and memail neq ""'>
+					and memail = #{memail}
+				</if>
+				<if test='mname !=null and mname neq ""'>
+					and mname = #{mname}
+				</if>
+				<if test='mphone !=null and mphone neq ""'>
+					and mphone = #{mphone}
+				</if>
+				<if test='startDateforBirth != null and startDateforBirth neq ""'>
+				<![CDATA[and birth >= #{startDateforBirth}]]>
+				</if>
+				<if test='endDateforBirth != null and endDateforBirth neq ""'>
+				<![CDATA[and birth <= #{endDateforBirth}]]>
+				</if>
+				<if test='startDateforSignUp != null and startDateforSignUp neq ""'>
+				<![CDATA[and sign_up_date >= #{startDateforSignUp}]]>
+				</if>
+				<if test='endDateforSignUp != null and endDateforSignUp neq ""'>
+				<![CDATA[and sign_up_date <= #{endDateforSignUp}]]>
+				</if>
+				<if test='gender !=null and gender neq ""'>
+					and gender = #{gender}
+				</if>
+				<if test='grade_level !=null and grade_level neq ""'>
+					and grade_level = #{grade_level}
+				</if>
+				<if test='menabled !=null and menabled neq ""'>
+					and menabled = #{menabled}
+				</if>
+			</if>
+		</where>
+	</select>
 </mapper>
