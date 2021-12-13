@@ -13,6 +13,7 @@
 				and mid = #{mid}
 			</if>
 			<if test='mid == null or mid eq ""'>
+			mrole = 'ROLE_USER'
 				<if test='memail !=null and memail neq ""'>
 					and memail = #{memail}
 				</if>
@@ -57,6 +58,7 @@
 				and mid = #{mid}
 			</if>
 			<if test='mid == null or mid eq ""'>
+				mrole = 'ROLE_USER'
 				<if test='memail !=null and memail neq ""'>
 					and memail = #{memail}
 				</if>
