@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberController {
 	@Resource MemberService memberService;
 	
-	@GetMapping("")
+	@GetMapping("/list")
 	public List<Member> memberList() {
 		return memberService.selectAllMembers();
 	}
@@ -34,5 +35,21 @@ public class MemberController {
 		log.info(searchForm.toString());
 		MemberResult memberResult = memberService.selectMemberList(searchForm);
 		return memberResult;
+	}
+	
+	@GetMapping("{mid}")
+	public Member selectMember(@PathVariable String mid) {
+		log.info("백오피스 selectMember 실행");
+		log.info(mid);
+		Member member = memberService.selectMember(mid);
+		return member;
+	}
+	
+	@PostMapping("/update")
+	public String updateMember(@RequestBody Member member) {
+		log.info("백오피스  실행");
+		log.info(member.toString());
+		memberService.updateMember(member);
+		return "success";
 	}
 }
