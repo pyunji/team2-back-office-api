@@ -12,4 +12,6 @@ public interface MemberDao {
 	public List<Member> selectAllMembers();
 	public int getTotalMemberNum(MemberSearchForm searchForm);
 	public List<Member> selectMemberList(MemberSearchForm searchForm);
+	public Member selectMember(String mid);
+	public void updateMember(Member member);
 }

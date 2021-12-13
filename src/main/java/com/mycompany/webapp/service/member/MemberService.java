@@ -41,4 +41,12 @@ public class MemberService {
 		
 		return memberResult;
 	}
+	
+	public Member selectMember(String mid) {
+		return memberDao.selectMember(mid);
+	}
+	
+	public void updateMember(Member member) {
+		memberDao.updateMember(member);
+	}
 }

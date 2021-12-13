@@ -90,4 +90,19 @@
 			</if>
 		</where>
 	</select>
+	<select id="selectMember" parameterType="String" resultType="com.mycompany.webapp.vo.Member">
+		select *
+		from member
+		where mid=#{mid}
+	</select>
+	
+	<update id="updateMember" parameterType="com.mycompany.webapp.vo.Member">
+		update member set mname = #{mname},
+						  memail = #{memail},
+						  mphone = #{mphone},
+						  birth = #{birth},
+						  grade_level = #{gradeLevel},
+						  menabled = #{menabled}
+					  where mid = #{mid}
+	</update>
 </mapper>
