@@ -7,7 +7,7 @@ public class ProductStock {
 	String pstockid;
 	String pcolorid;
 	String scode;
-	String stock;
+	Integer stock;
 	String regDate;
-	String sales;
+	Integer sales;
 }
