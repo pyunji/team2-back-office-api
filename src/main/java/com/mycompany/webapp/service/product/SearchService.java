@@ -42,7 +42,7 @@ public class SearchService {
 	}
 	
 	public ProductResult selectProductList(SearchForm searchForm) {
-		if (searchForm.getPname() != null && searchForm.getBname() != "") {
+		if (searchForm.getPname() != null && searchForm.getPname() != "") {
 			StringBuilder pname = new StringBuilder();
 			pname.append("%");
 			for(String str:searchForm.getPname().split("")) {

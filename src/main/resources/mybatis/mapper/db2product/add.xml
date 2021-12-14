@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.webapp.dao.db2product.AddDao">
+	<select id="selectBrand" resultType="com.mycompany.webapp.dto.product.Brand">
+	select * from brand
+	</select>
+	<select id="selectSizes" resultType="com.mycompany.webapp.dto.product.Sizes">
+	select * from Sizes order by sno
+	</select>
+	<select id="selectCatno" parameterType="com.mycompany.webapp.vo.Category" resultType="Integer">
+	select catno from category
+	where d1name = #{d1name}
+	and d2name = #{d2name}
+	and d3name = #{d3name}
+	</select>
+	
+	<insert id="insertProductCategory" parameterType="com.mycompany.webapp.vo.ProductCategory">
+	insert into product_category
+	values(#{pcommonid}, #{catno})
+	</insert>
+	
+	<select id="selectBno" parameterType="String" resultType="Integer">
+	select bno from brand 
+	where bname = #{bname}
+	</select>
+	
+	<insert id="insertProductCommon" parameterType="com.mycompany.webapp.vo.ProductCommon">
+	insert into product_common
+	values(#{pcommonid}, #{pname}, #{pnote}, #{bno})
+	</insert>
+
+	<insert id="insertProductColor" parameterType="com.mycompany.webapp.vo.ProductColor">
+	insert into product_color
+	values(#{pcolorid}, #{img1}, #{img2}, #{img3}, #{colorImg}, #{pcommonid}, #{ccode}, #{pprice})
+	</insert>
+
+	<insert id="insertProductStock" parameterType="com.mycompany.webapp.vo.ProductStock">
+	insert into product_stock(pstockid, pcolorid, scode, stock, reg_date)
+	values(#{pstockid}, #{pcolorid}, #{scode}, #{stock}, #{regDate})
+	</insert>
+
+	<insert id="insertWithProduct" parameterType="com.mycompany.webapp.vo.WithProduct">
+	insert into with_product
+	values(#{pcolorid}, #{wcolorid}, #{wcommonid})
+	</insert>
+</mapper>
