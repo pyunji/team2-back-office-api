@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.mycompany.webapp.dao.db1member.MemberDao;
 import com.mycompany.webapp.dto.Pager;
-import com.mycompany.webapp.dto.event.EventResult;
 import com.mycompany.webapp.dto.member.MemberResult;
 import com.mycompany.webapp.dto.member.MemberSearchForm;
+import com.mycompany.webapp.vo.Grade;
 import com.mycompany.webapp.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
@@ -48,5 +48,9 @@ public class MemberService {
 	
 	public void updateMember(Member member) {
 		memberDao.updateMember(member);
+	}
+	
+	public List<Grade> getGrades() {
+		return memberDao.getGrades();
 	}
 }

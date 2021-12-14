@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mycompany.webapp.dto.member.MemberResult;
 import com.mycompany.webapp.dto.member.MemberSearchForm;
 import com.mycompany.webapp.service.member.MemberService;
+import com.mycompany.webapp.vo.Grade;
 import com.mycompany.webapp.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
@@ -51,5 +52,10 @@ public class MemberController {
 		log.info(member.toString());
 		memberService.updateMember(member);
 		return "success";
+	}
+	
+	@GetMapping("/grade")
+	public List<Grade> getGrades() {
+		return memberService.getGrades();
 	}
 }
