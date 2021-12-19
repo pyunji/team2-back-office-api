@@ -35,8 +35,8 @@
 	</insert>
 
 	<insert id="insertProductStock" parameterType="com.mycompany.webapp.vo.ProductStock">
-	insert into product_stock(pstockid, pcolorid, scode, stock, reg_date)
-	values(#{pstockid}, #{pcolorid}, #{scode}, #{stock}, #{regDate})
+	insert into product_stock(pstockid, pcolorid, scode, stock, reg_date, sales)
+	values(#{pstockid}, #{pcolorid}, #{scode}, #{stock}, #{regDate}, #{sales})
 	</insert>
 
 	<insert id="insertWithProduct" parameterType="com.mycompany.webapp.vo.WithProduct">

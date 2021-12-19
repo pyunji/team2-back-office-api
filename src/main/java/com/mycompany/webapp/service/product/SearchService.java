@@ -42,25 +42,25 @@ public class SearchService {
 	}
 	
 	public ProductResult selectProductList(SearchForm searchForm) {
-		if (searchForm.getPname() != null && searchForm.getPname() != "") {
-			StringBuilder pname = new StringBuilder();
-			pname.append("%");
-			for(String str:searchForm.getPname().split("")) {
-				pname.append(str);
-				pname.append("%");
-			}
-			searchForm.setPname(pname.toString());
-		}
-		log.info("bname = " + searchForm.getBname());
-		if (searchForm.getBname() != null && searchForm.getBname() != "") {
-			StringBuilder bname = new StringBuilder();
-			bname.append("%");
-			for(String str:searchForm.getBname().split("")) {
-				bname.append(str);
-				bname.append("%");
-			}
-			searchForm.setBname(bname.toString());
-		}
+//		if (searchForm.getPname() != null && searchForm.getPname() != "") {
+//			StringBuilder pname = new StringBuilder();
+//			pname.append("%");
+//			for(String str:searchForm.getPname().split("")) {
+//				pname.append(str);
+//				pname.append("%");
+//			}
+//			searchForm.setPname(pname.toString());
+//		}
+//		log.info("bname = " + searchForm.getBname());
+//		if (searchForm.getBname() != null && searchForm.getBname() != "") {
+//			StringBuilder bname = new StringBuilder();
+//			bname.append("%");
+//			for(String str:searchForm.getBname().split("")) {
+//				bname.append(str);
+//				bname.append("%");
+//			}
+//			searchForm.setBname(bname.toString());
+//		}
 		int totalProduct = searchDao.getTotalProductNum(searchForm);
 		
 		int rowsPerPage = searchForm.getPager().getRowsPerPage();

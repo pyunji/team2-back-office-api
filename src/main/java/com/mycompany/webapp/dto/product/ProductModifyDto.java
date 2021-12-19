@@ -5,13 +5,17 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.Data;
 
 @Data
-public class ProductRegisterNormDto {
+public class ProductModifyDto {
 	String pcommonid;
 	String pcolorid;
 	String pstockid;
 	String scode;
 	Integer stock;
-	String regDate;
+	boolean regCheck;
+	MultipartFile img1;
+	MultipartFile img2;
+	MultipartFile img3;
+	MultipartFile colorImg;
 	String ccode;
 	Integer pprice;
 	String pname;

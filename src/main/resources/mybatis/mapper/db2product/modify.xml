@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.webapp.dao.db2product.ModifyDao">
+	<select id="selectOrgData" parameterType="String" resultType="com.mycompany.webapp.dto.product.ProductDto">
+	select *
+	from product_stock join product_color using (pcolorid)
+		join product_common using(pcommonid)
+		join brand using(bno)
+		join product_category using(pcommonid)
+		join category using(catno)
+		left join with_product using(pcolorid)
+    where pstockid = #{pstockid}
+    fetch next 1 rows only
+	</select>
+	
+	<update id="updateProductCategory" parameterType="com.mycompany.webapp.vo.ProductCategory">
+	update product_category
+	set catno = #{catno}
+	where pcommonid = #{pcommonid}
+	</update>
+	
+	<update id="updateProductCommon" parameterType="com.mycompany.webapp.vo.ProductCommon">
+	update product_common
+		<set>
+			<if test='pname != null and pname neq ""'>
+			pname = #{pname},
+			</if>
+			<if test='pnote != null and pnote neq ""'>
+			pnote = #{pnote},
+			</if>
+			<if test='bno != null'>
+			bno = #{bno},
+			</if>
+		</set>
+		WHERE
+		pcommonid = #{pcommonid}
+	</update>
+	
+	<update id="updateProductColorPcolorid" parameterType="com.mycompany.webapp.dto.product.ProductIds">
+	update product_color
+	set 
+		pcolorid = #{newPcolorid},
+		ccode = #{newCcode}
+	where pcolorid = #{oldPcolorid}
+	</update>
+	
+	<update id="updateProductStockPids" parameterType="com.mycompany.webapp.dto.product.ProductIds">
+	update product_stock
+	set 
+		pstockid = #{newPstockid},
+		pcolorid = #{newPcolorid}
+	where pstockid = #{oldPstockid}
+	</update>
+	
+	<update id="updateWithProductPcolorid" parameterType="com.mycompany.webapp.dto.product.ProductIds">
+	update with_product
+	set
+		pcolorid = #{newPcolorid}
+	where pcolorid = #{oldPcolorid}
+	</update>
+	
+	<update id="updatePprice" parameterType="com.mycompany.webapp.vo.ProductColor">
+	UPDATE product_color
+	SET
+		pprice = #{pprice}
+	WHERE pcolorid = #{pcolorid}
+	</update>
+	
+	<update id="updateImages" parameterType="com.mycompany.webapp.vo.ProductColor">
+	UPDATE product_color
+	<set>
+		<if test='img1 != null and img1 neq ""'>
+		img1 = #{img1},
+		</if>
+		<if test='img2 != null and img2 neq ""'>
+		img2 = #{img2},
+		</if>
+		<if test='img3 != null and img3 neq ""'>
+		img3 = #{img3},
+		</if>
+		<if test='colorImg != null and colorImg neq ""'>
+		color_img = #{colorImg},
+		</if>
+	</set>
+	WHERE pcolorid = #{pcolorid}
+	</update>
+	
+	<update id="updateProductStock" parameterType="com.mycompany.webapp.vo.ProductStock">
+	UPDATE product_stock
+		<set>
+			<if test='newPstockid != null and newPstockid neq ""'>
+			pstockid = #{newPstockid},
+			scode = #{scode},
+			</if>
+			<if test="stock != null">
+			stock = #{stock},
+			</if>
+			<if test='regDate != null and regDate neq ""'>
+			reg_date = #{regDate},
+			</if>
+		</set>
+		WHERE pstockid = #{oldPstockid}
+	</update>
+	
+	<update id="updateWithProduct" parameterType="com.mycompany.webapp.vo.WithProduct">
+	UPDATE with_product
+	SET wcolorid = #{wcolorid},
+		wcommonid = #{wcommonid}
+	WHERE pcolorid = #{pcolorid}
+	</update>
+</mapper>

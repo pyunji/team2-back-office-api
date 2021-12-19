@@ -57,12 +57,13 @@ public class AddService {
 			return "";
 		}
 		else {
-			String rootPath = "C:\\hyundai_itne\\eclipse-workspace\\team2-back-office-api\\src\\main\\resources\\static\\product";  
+			String rootPath = "C:\\hyundai_itne\\eclipse-workspace\\team2-back-office-api\\src\\main\\resources\\static\\product";
+			String localPath = "http://localhost:83/product";
 			String attachPath = "/upload/";
 			String saveName = new Date().getTime() + "-" + toUploadFile.getOriginalFilename();
 			File file = new File(rootPath + attachPath + saveName);
 			toUploadFile.transferTo(file);
-			return attachPath + saveName;
+			return localPath+attachPath + saveName;
 		}
 	}
 	
@@ -109,12 +110,19 @@ public class AddService {
 		
 		log.info("product = " + product);
 		
+		/* product_category 테이블에 데이터 삽입 */
 		insertProductCategory(product);
+		
+		/* product_common 테이블에 데이터 삽입 */
 		insertProductCommon(product);
+		
+		/* product_color 테이블에 데이터 삽입 */
 		insertProductColor(product);
+		
+		/* product_stock 테이블에 데이터 삽입 */
 		insertProductStock(product);
 		
-		
+		/* with_product 테이블에 데이터 삽입 */
 		if (productInfo.getWcolorid() != null && productInfo.getWcolorid() != "") {
 			WithProduct withProduct = new WithProduct();
 			withProduct.setPcolorid(product.getPcolorid());
