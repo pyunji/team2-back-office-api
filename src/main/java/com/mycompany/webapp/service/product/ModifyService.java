@@ -8,9 +8,11 @@ import java.util.Date;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mycompany.webapp.commons.S3Uploader;
 import com.mycompany.webapp.dao.db2product.AddDao;
 import com.mycompany.webapp.dao.db2product.ModifyDao;
 import com.mycompany.webapp.dto.product.ModifyForm;
@@ -40,6 +42,12 @@ public class ModifyService {
 		return modifyDao.selectOrgData(modifyForm);
 	}
 	
+	@Autowired
+	private S3Uploader s3Uploader;
+	
+	/* AWS 디렉토리 설정 */
+	private static final String DIR_PATH = "product/";
+	
 	/* 로컬에 파일 저장 & DB에 저장할 path 설정 */
 	@Transactional
 	public String getFilePath(MultipartFile toUploadFile) throws IllegalStateException, IOException {
@@ -48,13 +56,9 @@ public class ModifyService {
 			return "";
 		}
 		else {
-			String rootPath = "C:\\hyundai_itne\\eclipse-workspace\\team2-back-office-api\\src\\main\\resources\\static\\product";
-			String localPath = "http://localhost:83/product";
-			String attachPath = "/upload/";
-			String saveName = new Date().getTime() + "-" + toUploadFile.getOriginalFilename();
-			File file = new File(rootPath + attachPath + saveName);
-			toUploadFile.transferTo(file);
-			return localPath+attachPath + saveName;
+			String s3Url = s3Uploader.uploadFile(toUploadFile, DIR_PATH);
+			log.info("s3Url = " + s3Url);
+			return s3Url;
 		}
 	}
 	
@@ -66,17 +70,17 @@ public class ModifyService {
 		return fmt.format(date);
 	}
 	
-	public void deleteFile(String oldPath) {
-		log.info("실행");
-		String rootPath = "C:\\hyundai_itne\\eclipse-workspace\\team2-back-office-api\\src\\main\\resources\\static\\product";
-		String attachPath = "/upload/";
-		String[] splits = oldPath.split("/");
-		String saveName = splits[splits.length - 1];
-		File file = new File(rootPath + attachPath + saveName);
-		if (file.exists()) {
-			file.delete();
-		}
-	}
+//	public void deleteFile(String oldPath) {
+//		log.info("실행");
+//		String rootPath = "C:\\hyundai_itne\\eclipse-workspace\\team2-back-office-api\\src\\main\\resources\\static\\product";
+//		String attachPath = "/upload/";
+//		String[] splits = oldPath.split("/");
+//		String saveName = splits[splits.length - 1];
+//		File file = new File(rootPath + attachPath + saveName);
+//		if (file.exists()) {
+//			file.delete();
+//		}
+//	}
 	
 	@Transactional
 	public void updateImages(ProductDto oldProductInfo, ProductModifyDto newProductInfo) throws IllegalStateException, IOException {
@@ -87,22 +91,22 @@ public class ModifyService {
 		if (newProductInfo.getImg1() != null) {
 			String img1Path = getFilePath(newProductInfo.getImg1());
 			productColor.setImg1(img1Path);
-			deleteFile(oldProductInfo.getImg1());
+//			deleteFile(oldProductInfo.getImg1());
 		}
 		if (newProductInfo.getImg2() != null) {
 			String img2Path = getFilePath(newProductInfo.getImg2());
 			productColor.setImg2(img2Path);
-			deleteFile(oldProductInfo.getImg2());
+//			deleteFile(oldProductInfo.getImg2());
 		}
 		if (newProductInfo.getImg3() != null) {
 			String img3Path = getFilePath(newProductInfo.getImg3());
 			productColor.setImg3(img3Path);
-			deleteFile(oldProductInfo.getImg3());
+//			deleteFile(oldProductInfo.getImg3());
 		}
 		if (newProductInfo.getColorImg() != null) {
 			String colorImgPath = getFilePath(newProductInfo.getColorImg());
 			productColor.setColorImg(colorImgPath);
-			deleteFile(oldProductInfo.getColorImg());
+//			deleteFile(oldProductInfo.getColorImg());
 		}
 		modifyDao.updateImages(productColor);
 	}
