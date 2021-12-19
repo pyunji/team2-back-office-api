@@ -74,9 +74,10 @@ public class EventController {
 	
 	@PostMapping("/result")
 	public EventResult getResult(@RequestBody EventSearchForm searchForm) {
-//		log.info("백오피스 getResult 실행");
+		log.info("백오피스 getResult 실행");
 //		log.info(searchForm.toString());
 		EventResult eventResult = eventService.selectEventList(searchForm);
+		log.info(eventResult.toString());
 		return eventResult;
 	}
 }
