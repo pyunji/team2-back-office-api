@@ -9,9 +9,11 @@ import java.util.Date;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mycompany.webapp.commons.S3Uploader;
 import com.mycompany.webapp.dao.db1member.EventDao;
 import com.mycompany.webapp.dto.event.NewEvent;
 import com.mycompany.webapp.vo.Event;
@@ -23,28 +25,29 @@ import lombok.extern.slf4j.Slf4j;
 public class EventAddService {
 	@Resource EventDao eventDao;
 	
-	/* 로컬에 파일 저장 & DB에 저장할 path 설정 */
+	@Autowired
+	private S3Uploader s3Uploader;
+	
+	/* AWS 디렉토리 설정 */
+	private static final String DIR_PATH = "event/";
+	
 	@Transactional
 	public String getFilePath(MultipartFile toUploadFile) throws IllegalStateException, IOException {
-		
+		log.info("실행");
 		if (toUploadFile.getOriginalFilename().equals("")) {
 			return "";
 		}
-		else {
-			String rootPath = "C:\\Users\\Eunsol\\Desktop\\현대2차 프로젝트\\FINAL\\team2-back-office-api\\src\\main\\resources\\static\\event";  
-			String attachPath = "/upload/";
-			String saveName = new Date().getTime() + "-" + toUploadFile.getOriginalFilename();
-			File file = new File(rootPath + attachPath + saveName);
-			toUploadFile.transferTo(file);
-			return attachPath + saveName;
-		}
+		
+		String s3Url = s3Uploader.uploadFile(toUploadFile, DIR_PATH);
+		log.info("s3Url = " + s3Url);
+		return s3Url;
 	}
 	
 	@Transactional
 	public void addEvent(NewEvent newEvent) throws ParseException, IllegalStateException, IOException {
 		log.info("실행");
 		Event event = new Event();
-		event.setEno(newEvent.getEno());
+		//event.setEno(newEvent.getEno());
 		event.setEtitle(newEvent.getEtitle());
 		event.setEcontent(newEvent.getEcontent());
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -53,8 +56,9 @@ public class EventAddService {
 		date = new Date(sdf.parse(newEvent.getEexpireDate()).getTime());
 		event.setEexpireDate(date);
 		event.setElimitCount(newEvent.getElimitCount());
-		event.setEcount(newEvent.getEcount());
-		event.setEstatus(newEvent.getEstatus());
+		//event.setEcount(newEvent.getEcount());
+		//event.setEstatus(newEvent.getEstatus());
+		log.info(event.toString());
 		
 		String eimgPath = getFilePath(newEvent.getEimg());
 		if (eimgPath.equals("")) { event.setEimg(null); } 
