@@ -18,6 +18,7 @@ import com.mycompany.webapp.dto.product.Brand;
 import com.mycompany.webapp.dto.product.Depth1;
 import com.mycompany.webapp.dto.product.Depth2;
 import com.mycompany.webapp.dto.product.Depth3;
+import com.mycompany.webapp.dto.product.ModifyForm;
 import com.mycompany.webapp.dto.product.ProductDto;
 import com.mycompany.webapp.dto.product.ProductModifyDto;
 import com.mycompany.webapp.dto.product.ProductRegisterDto;
@@ -134,7 +135,7 @@ public class ProductController {
 		return addService.addProduct(productInfo);
 	}
 	
-	@PostMapping("/modify")
+	@PostMapping("/modify/process")
 	public ProductDto modifyProduct(
 			@RequestPart(required = false) String pcommonid,
 			@RequestPart(required = false) String pcolorid,
@@ -154,6 +155,9 @@ public class ProductController {
 			@RequestPart(required = false) String d1name,
 			@RequestPart(required = false) String d2name,
 			@RequestPart(required = false) String d3name,
+			@RequestPart(required = false) String hiddenD1name,
+			@RequestPart(required = false) String hiddenD2name,
+			@RequestPart(required = false) String hiddenD3name,
 			@RequestPart(required = false) String wcolorid
 			) throws IllegalStateException, IOException {
 		ProductModifyDto productInfo = new ProductModifyDto();
@@ -175,6 +179,9 @@ public class ProductController {
 		productInfo.setD1name(d1name);
 		productInfo.setD2name(d2name);
 		productInfo.setD3name(d3name);
+		productInfo.setHiddenD1name(hiddenD1name);
+		productInfo.setHiddenD2name(hiddenD2name);
+		productInfo.setHiddenD3name(hiddenD3name);
 		productInfo.setWcolorid(wcolorid);
 		
 		log.info("ProductModifyDto = " + productInfo);
@@ -184,8 +191,8 @@ public class ProductController {
 		return new ProductDto();
 	}
 
-	@GetMapping("/modify")
-	public ProductDto getOrgData(@RequestParam String pstockid) {
-		return modifyService.getOrgData(pstockid);
+	@PostMapping("/modify")
+	public ProductDto getOrgData(@RequestBody ModifyForm modifyForm) {
+		return modifyService.getOrgData(modifyForm);
 	}
 }

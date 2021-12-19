@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mycompany.webapp.dao.db2product.AddDao;
 import com.mycompany.webapp.dao.db2product.ModifyDao;
+import com.mycompany.webapp.dto.product.ModifyForm;
+import com.mycompany.webapp.dto.product.ProductCategoryDto;
 import com.mycompany.webapp.dto.product.ProductDto;
 import com.mycompany.webapp.dto.product.ProductIds;
 import com.mycompany.webapp.dto.product.ProductModifyDto;
@@ -33,9 +35,9 @@ public class ModifyService {
 	
 	@Resource AddDao addDao;
 	
-	public ProductDto getOrgData(String pstockid) {
+	public ProductDto getOrgData(ModifyForm modifyForm) {
 		log.info("실행");
-		return modifyDao.selectOrgData(pstockid);
+		return modifyDao.selectOrgData(modifyForm);
 	}
 	
 	/* 로컬에 파일 저장 & DB에 저장할 path 설정 */
@@ -108,15 +110,22 @@ public class ModifyService {
 	@Transactional
 	public void updateProductCategory(ProductDto oldProductInfo, ProductModifyDto newProduct) {
 		log.info("실행");
-		Category category = new Category();
-		category.setD1name(newProduct.getD1name());
-		category.setD2name(newProduct.getD2name());
-		category.setD3name(newProduct.getD3name());
-		Integer catno = addDao.selectCatno(category);
-		log.info("catno = " + catno);
-		ProductCategory productCategory = new ProductCategory();
+		Category oldCategory = new Category();
+		oldCategory.setD1name(oldProductInfo.getD1name());
+		oldCategory.setD2name(oldProductInfo.getD2name());
+		oldCategory.setD3name(oldProductInfo.getD3name());
+		Integer oldCatno = addDao.selectCatno(oldCategory);
+		Category newCategory = new Category();
+		/* 이전 카테고리를 특정지어서 바꿔주어야함 */
+		newCategory.setD1name(newProduct.getD1name());
+		newCategory.setD2name(newProduct.getD2name());
+		newCategory.setD3name(newProduct.getD3name());
+		Integer newCatno = addDao.selectCatno(newCategory);
+		log.info("newCatno = " + newCatno);
+		ProductCategoryDto productCategory = new ProductCategoryDto();
 		productCategory.setPcommonid(oldProductInfo.getPcommonid());
-		productCategory.setCatno(catno);
+		productCategory.setNewCatno(newCatno);
+		productCategory.setOldCatno(oldCatno);
 		modifyDao.updateProductCategory(productCategory);
 		
 	}
@@ -149,7 +158,15 @@ public class ModifyService {
 		log.info("실행");
 		/* modify.html에서 oldPstockid를 hidden 처리 후 그대로 가져옴 */
 		String oldPstockid = newProductInfo.getPstockid();
-		ProductDto oldProductInfo = getOrgData(oldPstockid);
+		ModifyForm modifyForm = new ModifyForm();
+		modifyForm.setHiddenPstockid(oldPstockid);
+		modifyForm.setHiddenD1name(newProductInfo.getHiddenD1name());
+		modifyForm.setHiddenD2name(newProductInfo.getHiddenD2name());
+		modifyForm.setHiddenD3name(newProductInfo.getHiddenD3name());
+		log.info("modifyForm = " + modifyForm);
+		ProductDto oldProductInfo = getOrgData(modifyForm);
+		log.info("oldProductInfo = " + oldProductInfo);
+		
 		newProductInfo.setPcolorid(oldProductInfo.getPcolorid());
 		newProductInfo.setPcommonid(oldProductInfo.getPcommonid());;
 		

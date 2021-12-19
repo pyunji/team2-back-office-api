@@ -24,5 +24,8 @@ public class ProductModifyDto {
 	String d1name;
 	String d2name;
 	String d3name;
+	String hiddenD1name;
+	String hiddenD2name;
+	String hiddenD3name;
 	String wcolorid;
 }
