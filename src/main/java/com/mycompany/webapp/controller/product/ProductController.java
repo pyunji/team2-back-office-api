@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,14 +18,15 @@ import com.mycompany.webapp.dto.product.Brand;
 import com.mycompany.webapp.dto.product.Depth1;
 import com.mycompany.webapp.dto.product.Depth2;
 import com.mycompany.webapp.dto.product.Depth3;
+import com.mycompany.webapp.dto.product.ModifyForm;
 import com.mycompany.webapp.dto.product.ProductDto;
+import com.mycompany.webapp.dto.product.ProductModifyDto;
 import com.mycompany.webapp.dto.product.ProductRegisterDto;
-import com.mycompany.webapp.dto.product.ProductRegisterMPDto;
-import com.mycompany.webapp.dto.product.ProductRegisterNormDto;
 import com.mycompany.webapp.dto.product.ProductResult;
 import com.mycompany.webapp.dto.product.SearchForm;
 import com.mycompany.webapp.dto.product.Sizes;
 import com.mycompany.webapp.service.product.AddService;
+import com.mycompany.webapp.service.product.ModifyService;
 import com.mycompany.webapp.service.product.SearchService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +43,8 @@ public class ProductController {
 	@Resource SearchService searchService;
 	
 	@Resource AddService addService;
+	
+	@Resource ModifyService modifyService;
 	
 	@GetMapping("/search")
 	public List<Depth1> initSearch() {
@@ -82,12 +86,7 @@ public class ProductController {
 	public List<Sizes> getSizeList() {
 		return addService.getSizeList();
 	}
-//	
-//	@PostMapping("/add")
-//	public ProductDto addProduct(@RequestPart ProductRegisterDto productInfo) throws IOException {
-//		log.info("실행");
-//		return addService.addProduct(productInfo);
-//	}
+
 	@PostMapping("/add")
 	public ProductDto addProduct(
 			@RequestPart(required = false) String pcommonid,
@@ -133,26 +132,67 @@ public class ProductController {
 		
 		log.info("productInfo = " + productInfo);
 		
-//		return "success";
 		return addService.addProduct(productInfo);
 	}
-//	@PostMapping("/add")
-//	public String addProduct(
-//			@RequestPart ProductRegisterNormDto productInfo,
-//			@RequestPart MultipartFile img1,
-//			@RequestPart MultipartFile img2,
-//			@RequestPart MultipartFile img3,
-//			@RequestPart MultipartFile colorImg
-//			) {
-//		
-//		
-//		log.info("productInfo = " + productInfo);
-//		log.info("img1 = " + img1);
-//		log.info("img2 = " + img2);
-//		log.info("img3 = " + img3);
-//		log.info("colorImg = " + colorImg);
-//		
-//		return "success";
-////		return addService.addProduct(productInfo);
-//	}
+	
+	@PostMapping("/modify/process")
+	public ProductDto modifyProduct(
+			@RequestPart(required = false) String pcommonid,
+			@RequestPart(required = false) String pcolorid,
+			@RequestPart(required = false) String pstockid,
+			@RequestPart(required = false) String scode,
+			@RequestPart(required = false) Integer stock,
+			@RequestPart(required = false) boolean regCheck,
+			@RequestPart(required = false) MultipartFile img1,
+			@RequestPart(required = false) MultipartFile img2,
+			@RequestPart(required = false) MultipartFile img3,
+			@RequestPart(required = false) MultipartFile colorImg,
+			@RequestPart(required = false) String ccode,
+			@RequestPart(required = false) Integer pprice,
+			@RequestPart(required = false) String pname,
+			@RequestPart(required = false) String pnote,
+			@RequestPart(required = false) String bname,
+			@RequestPart(required = false) String d1name,
+			@RequestPart(required = false) String d2name,
+			@RequestPart(required = false) String d3name,
+			@RequestPart(required = false) String hiddenD1name,
+			@RequestPart(required = false) String hiddenD2name,
+			@RequestPart(required = false) String hiddenD3name,
+			@RequestPart(required = false) String wcolorid
+			) throws IllegalStateException, IOException {
+		ProductModifyDto productInfo = new ProductModifyDto();
+		productInfo.setPcommonid(pcommonid);
+		productInfo.setPcolorid(pcolorid);
+		productInfo.setPstockid(pstockid);
+		productInfo.setScode(scode);
+		productInfo.setStock(stock);
+		productInfo.setRegCheck(regCheck);
+		productInfo.setImg1(img1);
+		productInfo.setImg2(img2);
+		productInfo.setImg3(img3);
+		productInfo.setColorImg(colorImg);
+		productInfo.setCcode(ccode);
+		productInfo.setPprice(pprice);
+		productInfo.setPname(pname);
+		productInfo.setPnote(pnote);
+		productInfo.setBname(bname);
+		productInfo.setD1name(d1name);
+		productInfo.setD2name(d2name);
+		productInfo.setD3name(d3name);
+		productInfo.setHiddenD1name(hiddenD1name);
+		productInfo.setHiddenD2name(hiddenD2name);
+		productInfo.setHiddenD3name(hiddenD3name);
+		productInfo.setWcolorid(wcolorid);
+		
+		log.info("ProductModifyDto = " + productInfo);
+		
+		modifyService.modifyProduct(productInfo);
+		
+		return new ProductDto();
+	}
+
+	@PostMapping("/modify")
+	public ProductDto getOrgData(@RequestBody ModifyForm modifyForm) {
+		return modifyService.getOrgData(modifyForm);
+	}
 }
