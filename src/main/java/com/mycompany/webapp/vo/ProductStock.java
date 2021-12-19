@@ -9,5 +9,5 @@ public class ProductStock {
 	String scode;
 	Integer stock;
 	String regDate;
-	Integer sales;
+	int sales;
 }

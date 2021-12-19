@@ -10,14 +10,14 @@
 		join category using(catno)
 		<where>
 			<if test = 'pstockid != null and pstockid neq ""'>
-			AND pstockid = #{pstockid}
+			AND upper(pstockid) like upper('%'||#{pstockid}||'%')
 			</if>
 			<if test = 'pstockid == null or pstockid eq ""'>
 				<if test='pname != null and pname neq ""'>
-				AND upper(pname) like upper(#{pname})
+				AND upper(pname) like upper('%'||#{pname}||'%')
 				</if>
 				<if test='bname != null and bname neq ""'>
-				AND upper(bname) like upper(#{bname})
+				AND upper(bname) like upper('%'||#{bname}||'%')
 				</if>
 				<if test='startRegDate != null and startRegDate neq ""'>
 				<![CDATA[AND reg_date >= #{startRegDate}]]>
@@ -54,14 +54,14 @@
 		join category using(catno)
 		<where>
 			<if test = 'pstockid != null and pstockid neq ""'>
-			AND pstockid = #{pstockid}
+			AND upper(pstockid) like upper('%'||#{pstockid}||'%')
 			</if>
 			<if test = 'pstockid == null or pstockid eq ""'>
 				<if test='pname != null and pname neq ""'>
-				AND upper(pname) like upper(#{pname})
+				AND upper(pname) like upper('%'||#{pname}||'%')
 				</if>
 				<if test='bname != null and bname neq ""'>
-				AND upper(bname) like upper(#{bname})
+				AND upper(bname) like upper('%'||#{bname}||'%')
 				</if>
 				<if test='startRegDate != null and startRegDate neq ""'>
 				<![CDATA[AND reg_date >= #{startRegDate}]]>
