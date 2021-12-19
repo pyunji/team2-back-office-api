@@ -65,6 +65,9 @@ public class AddService {
 			return "";
 		}
 		
+		/* uploadFile 메서드
+		 * param: MultipartFile 타입의 파일과 디렉토리 path만 널어준다 
+		 * return: AWS에 저장된 이미지 주소를 반환한다.*/
 		String s3Url = s3Uploader.uploadFile(toUploadFile, DIR_PATH);
 		log.info("s3Url = " + s3Url);
 		return s3Url;
