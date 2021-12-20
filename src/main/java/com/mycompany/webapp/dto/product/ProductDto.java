@@ -10,6 +10,7 @@ public class ProductDto {
 	String scode;
 	Integer stock;
 	String regDate;
+	String delDate;
 	int sales;
 	String img1;
 	String img2;
