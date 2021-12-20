@@ -1,5 +1,6 @@
 package com.mycompany.webapp.dao.db2product;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -22,4 +23,5 @@ public interface BinDao {
 	public ProductColor selectImages(String pcolorid); 
 	public void delProductColor(String pcolorid);
 	public void delProductStock(String pstockid);
+	public List<String> selectDelTargetPstockids(Date delDay);
 }

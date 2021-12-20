@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.mycompany.webapp.commons.S3Uploader;
@@ -148,6 +149,18 @@ public class BinService {
 			binDao.delProductStock(pstockid);
 		}
 	}
+
+////	@Scheduled(cron = "0 0 0 1 * *")
+//	@Scheduled(cron = "*/1 * * * * *")
+//	public void permDel() {
+//		System.out.println("==========스케줄러 실행=========");
+//		log.debug("==========스케줄러 실행=========");
+//		log.info("==========스케줄러 실행=========");
+//        java.util.Date u = new java.util.Date();
+//        java.sql.Date delDay = new java.sql.Date(u.getTime());
+//        List<String> targetPstockids = binDao.selectDelTargetPstockids(delDay);
+//        log.info("targetPstockids = " + targetPstockids);
+//	}
 	
 	/* 삭제하려는 상품의 pcommonid로 조회 시 상품이 2개이상 나오면 true */
 	public boolean isDependentPcommon(String pcommonid) {
