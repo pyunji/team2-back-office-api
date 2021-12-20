@@ -156,4 +156,10 @@
 	delete from product_stock
 	where pstockid = #{pstockid}
 	</delete>
+	
+	<select id="selectDelTargetPstockids" parameterType="java.sql.Date" resultType="String">
+	SELECT pstockid
+	FROM product_stock
+	WHERE #{delDay} - del_date > 30
+	</select>
 </mapper>

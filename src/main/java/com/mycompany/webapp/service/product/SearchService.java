@@ -43,7 +43,7 @@ public class SearchService {
 	
 	public ProductResult selectProductList(SearchForm searchForm) {
 		int totalProduct = searchDao.getTotalProductNum(searchForm);
-		
+		log.info("searchForm = " +searchForm);
 		int rowsPerPage = searchForm.getPager().getRowsPerPage();
 		int pagesPerGroup = searchForm.getPager().getPagesPerGroup();
 		int pageNo = searchForm.getPager().getPageNo();

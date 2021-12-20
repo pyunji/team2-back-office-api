@@ -102,13 +102,15 @@ public class ProductController {
 		return "ok";
 	}
 
+	/* 강제 영구 삭제 테스트 url 매핑입니다. */
+	/*
 	@PostMapping("/permdel")
 	public String permDel(@RequestBody List<String> products) {
 		log.info("products = " + products);
 		binService.permDel(products);
 		return "ok";
 	}
-	
+	*/
 	@GetMapping("/brand")
 	public List<Brand> getBrandList() {
 		return addService.getBrandList();
