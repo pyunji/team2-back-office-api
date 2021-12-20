@@ -101,6 +101,13 @@ public class ProductController {
 		binService.removeDelDate(products);
 		return "ok";
 	}
+
+	@PostMapping("/permdel")
+	public String permDel(@RequestBody List<String> products) {
+		log.info("products = " + products);
+		binService.permDel(products);
+		return "ok";
+	}
 	
 	@GetMapping("/brand")
 	public List<Brand> getBrandList() {
