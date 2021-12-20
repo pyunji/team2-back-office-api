@@ -11,6 +11,8 @@ public class SearchForm {
 	String bname;
 	String startRegDate;
 	String endRegDate;
+	String startDelDate;
+	String endDelDate;
 	Integer minStock;
 	Integer maxStock;
 	String d1name;

@@ -26,6 +26,7 @@ import com.mycompany.webapp.dto.product.ProductResult;
 import com.mycompany.webapp.dto.product.SearchForm;
 import com.mycompany.webapp.dto.product.Sizes;
 import com.mycompany.webapp.service.product.AddService;
+import com.mycompany.webapp.service.product.BinService;
 import com.mycompany.webapp.service.product.ModifyService;
 import com.mycompany.webapp.service.product.SearchService;
 
@@ -40,6 +41,9 @@ public class ProductController {
 //	public List<ProductDto> search(@RequestBody Search search) {
 //		
 //	}
+	
+	@Resource BinService binService;
+	
 	@Resource SearchService searchService;
 	
 	@Resource AddService addService;
@@ -75,6 +79,27 @@ public class ProductController {
 		ProductResult productResult = searchService.selectProductList(searchForm);
 //		log.info("productList = " + productList);
 		return productResult;
+	}
+
+	@PostMapping("/bin/result")
+	public ProductResult getBinResult(@RequestBody SearchForm searchForm) {
+		log.info("searchForm = " + searchForm);
+		ProductResult productResult = binService.selectBinList(searchForm);
+		return productResult;
+	}
+	
+	@PostMapping("/bin")
+	public String goToBin(@RequestBody List<String> products) {
+		log.info("products = " + products);
+		binService.updateDelDate(products);
+		return "ok";
+	}
+	
+	@PostMapping("/returnfrombin")
+	public String returnFromBin(@RequestBody List<String> products) {
+		log.info("products = " + products);
+		binService.removeDelDate(products);
+		return "ok";
 	}
 	
 	@GetMapping("/brand")
