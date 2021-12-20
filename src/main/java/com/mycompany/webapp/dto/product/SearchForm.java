@@ -19,5 +19,6 @@ public class SearchForm {
 	String d2name;
 	String d3name;
 	int pageNo;
+	String sortBy;
 	Pager pager;
 }
