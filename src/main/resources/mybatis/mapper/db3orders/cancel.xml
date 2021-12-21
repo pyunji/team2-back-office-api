@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.mycompany.webapp.dao.db3orders.OrderCancelDao">
+	<update id="cancelOrder"
+		parameterType="String">
+		
+		update orders set ostatus = '주문 취소'
+		where oid = #{cancelOid}
+
+
+	</update>
+	
+	<select id = "selectCancelOrderItemList" parameterType="String" resultType ="com.mycompany.webapp.dto.product.OrderItemDto">
+		select *
+		from order_item
+		where oid = #{cancelOid}
+	</select>
+	
+</mapper>

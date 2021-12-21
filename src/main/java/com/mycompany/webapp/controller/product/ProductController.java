@@ -13,7 +13,12 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import com.mycompany.webapp.dto.product.Brand;
+
+import com.mycompany.webapp.dto.order.OrderProductResult;
+import com.mycompany.webapp.dto.order.OrderSearchForm;
+
 import com.mycompany.webapp.dto.product.Depth1;
 import com.mycompany.webapp.dto.product.Depth2;
 import com.mycompany.webapp.dto.product.Depth3;
@@ -73,6 +78,7 @@ public class ProductController {
 		return productResult;
 	}
 	
+
 	@GetMapping("/brand")
 	public List<Brand> getBrandList() {
 		return addService.getBrandList();
@@ -154,5 +160,12 @@ public class ProductController {
 //		
 //		return "success";
 ////		return addService.addProduct(productInfo);
+
+//	@PostMapping("/search/productResult")
+//	public OrderProductResult getOrderProductResult(@RequestBody OrderSearchForm orderSearchForm) {
+//		log.info("OrderSearchForm 제대로 들어왔는지 확인" + orderSearchForm);
+//		OrderProductResult orderProductResult = searchService.selectOrderProductList(orderSearchForm);
+//		return OrderProductResult;
+
 //	}
 }

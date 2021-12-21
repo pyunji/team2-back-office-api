@@ -4,23 +4,32 @@ import lombok.Data;
 
 @Data
 public class OrderDto {
+	//OrderItems Dto
+	String pstockid;
 	String oid;
+	int ocount;
+	int totalPrice;
+	String odate;
+	String odelDate;
+	//Orders Dto
+	String mid;
+	String paymentMethodCode;
+	String ostatus;
+	String deliveryStatus;
+	String oemail;
+	String memo;
 	String ozipcode;
 	String oaddress;
 	String oreceiver;
 	String ophone;
 	String otel;
-	String memo;
-	String oemail;
-	String used_mileage;
-	String before_dc_price;
-	String after_dc_price;
-	String payment_info;
-	String ostatus;
-	String delivery_status;
-	String mid;
-	String payment_method_code;
 	
+	int usedMileage;
+	int beforeDcPrice;
+	int afterDcPrice;
+	String paymentInfo;
+	
+
 	
 	
 }
