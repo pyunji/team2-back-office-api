@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mycompany.webapp.dao.db2product.SearchDao">
+<mapper namespace="com.mycompany.webapp.dao.db2product.BinDao">
 	<select id="selectProductList" parameterType="com.mycompany.webapp.dto.product.SearchForm" resultType="com.mycompany.webapp.dto.product.ProductDto"> 
 	select *
 	from product_stock join product_color using (pcolorid)
@@ -9,7 +9,7 @@
 		join product_category using(pcommonid)
 		join category using(catno)
 		<where>
-			AND del_date is null
+			AND del_date is not null
 			<if test = 'pstockid != null and pstockid neq ""'>
 			AND upper(pstockid) like upper('%'||#{pstockid}||'%')
 			</if>
@@ -25,6 +25,12 @@
 				</if>
 				<if test='endRegDate != null and endRegDate neq ""'>
 				<![CDATA[AND reg_date <= #{endRegDate}]]>
+				</if>
+				<if test='startDelDate != null and startDelDate neq ""'>
+				<![CDATA[AND del_date >= #{startDelDate}]]>
+				</if>
+				<if test='endDelDate != null and endDelDate neq ""'>
+				<![CDATA[AND del_date <= #{endDelDate}]]>
 				</if>
 				<if test='minStock != null and minStock neq ""'>
 				<![CDATA[AND stock >= #{minStock}]]>
@@ -43,6 +49,7 @@
 				</if>
 			</if>
 		</where>
+		order by del_date desc
 		offset #{pager.startRowIndex} rows
 		fetch next #{pager.rowsPerPage} rows only
 	</select>
@@ -54,7 +61,7 @@
 		join product_category using(pcommonid)
 		join category using(catno)
 		<where>
-			AND del_date is null
+			AND del_date is not null
 			<if test = 'pstockid != null and pstockid neq ""'>
 			AND upper(pstockid) like upper('%'||#{pstockid}||'%')
 			</if>
@@ -70,6 +77,12 @@
 				</if>
 				<if test='endRegDate != null and endRegDate neq ""'>
 				<![CDATA[AND reg_date <= #{endRegDate}]]>
+				</if>
+				<if test='startDelDate != null and startDelDate neq ""'>
+				<![CDATA[AND del_date >= #{startDelDate}]]>
+				</if>
+				<if test='endDelDate != null and endDelDate neq ""'>
+				<![CDATA[AND del_date <= #{endDelDate}]]>
 				</if>
 				<if test='minStock != null and minStock neq ""'>
 				<![CDATA[AND stock >= #{minStock}]]>
@@ -89,4 +102,12 @@
 			</if>
 		</where>
 	</select>
+	<update id="updateDelDate" parameterType="com.mycompany.webapp.dto.product.BinDto">
+	UPDATE product_stock
+	SET del_date = #{delDate}
+	WHERE pstockid IN 
+		<foreach collection="pstockids" item="item" separator="," open="(" close=")">
+		#{item}
+		</foreach>
+	</update>
 </mapper>
