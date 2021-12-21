@@ -13,4 +13,5 @@ public interface EventDao {
 	public void addEvent(Event event);
 	public int getTotalEventNum(EventSearchForm searchForm);
 	public List<Event> selectEventList(EventSearchForm searchForm);
+	public void updateEventStatus(Event event);
 }
