@@ -60,6 +60,10 @@ public class EventAddService {
 		//event.setEstatus(newEvent.getEstatus());
 		log.info(event.toString());
 		
+		String ethumbnailPath = getFilePath(newEvent.getEthumbnail());
+		if (ethumbnailPath.equals("")) { event.setEthumbnail(null); } 
+		else { event.setEthumbnail(ethumbnailPath); }
+		
 		String eimgPath = getFilePath(newEvent.getEimg());
 		if (eimgPath.equals("")) { event.setEimg(null); } 
 		else { event.setEimg(eimgPath); }

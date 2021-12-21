@@ -52,7 +52,8 @@ public class EventController {
 						   @RequestPart(required=false) Integer elimitCount,
 						   @RequestPart(required=false) Integer ecount,
 						   @RequestPart(required=false) MultipartFile eimg,
-						   @RequestPart(required=false) Integer estatus
+						   @RequestPart(required=false) Integer estatus,
+						   @RequestPart(required=false) MultipartFile ethumbnail
 						   ) throws IllegalStateException, ParseException, IOException {
 		log.info("백오피스 api addEvent실행");
 		NewEvent newEvent = new NewEvent();
@@ -65,6 +66,7 @@ public class EventController {
 		newEvent.setEcount(ecount);
 		newEvent.setEimg(eimg);
 		newEvent.setEstatus(estatus);
+		newEvent.setEthumbnail(ethumbnail);
 		
 		//eventService.addEvent(newEvent);
 		evnetAddService.addEvent(newEvent);

@@ -15,6 +15,7 @@ import com.mycompany.webapp.dto.member.MemberResult;
 import com.mycompany.webapp.dto.member.MemberSearchForm;
 import com.mycompany.webapp.service.member.MemberService;
 import com.mycompany.webapp.vo.Grade;
+import com.mycompany.webapp.vo.GradeAdmin;
 import com.mycompany.webapp.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
@@ -58,4 +59,20 @@ public class MemberController {
 	public List<Grade> getGrades() {
 		return memberService.getGrades();
 	}
+	
+	@RequestMapping("/grade/policy")
+	public GradeAdmin getGradeAdmin() {
+		log.info("getGradeAdmin 실행");
+		return memberService.getGradeAdmin();
+	}
+	
+	@RequestMapping("/grade/policy/update")
+	public String updateGradeAdmin(@RequestBody GradeAdmin gradeAdmin) throws InterruptedException {
+		log.info("백오피스 updateGradeAdmin 실행");
+		log.info(gradeAdmin.toString());
+		memberService.updateGradeAdmin(gradeAdmin);
+		return "success";
+	}
+	
+	
 }

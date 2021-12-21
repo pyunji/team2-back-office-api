@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.mycompany.webapp.dto.member.MemberSearchForm;
 import com.mycompany.webapp.vo.Grade;
+import com.mycompany.webapp.vo.GradeAdmin;
 import com.mycompany.webapp.vo.Member;
 
 @Mapper
@@ -16,4 +17,6 @@ public interface MemberDao {
 	public Member selectMember(String mid);
 	public void updateMember(Member member);
 	public List<Grade> getGrades();
+	public GradeAdmin getGradeAdmin();
+	public void updateGradeAdmin(GradeAdmin gradeAdmin);
 }
