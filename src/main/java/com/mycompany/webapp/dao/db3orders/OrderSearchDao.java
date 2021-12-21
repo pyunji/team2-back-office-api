@@ -12,4 +12,6 @@ import com.mycompany.webapp.dto.order.OrderSearchForm;
 public interface OrderSearchDao {
 	public List<OrderDto> selectOrderList(OrderSearchForm orderSearchForm);
 	public int getTotalOrderNum(OrderSearchForm orderSearchForm);
+	//public String getOrderProductName(OrderSearchForm orderSearchForm);
+	public List<OrderDto> selectOrderListAll();
 }

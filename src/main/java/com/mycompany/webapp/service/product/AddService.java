@@ -61,7 +61,11 @@ public class AddService {
 	@Transactional
 	public String getFilePath(MultipartFile toUploadFile) throws IllegalStateException, IOException {
 		log.info("실행");
-		if (toUploadFile.getOriginalFilename().equals("")) {
+		try {
+			if (toUploadFile.getOriginalFilename() == null || toUploadFile.getOriginalFilename().equals("")) {
+				return "";
+			}
+		} catch (NullPointerException e) {
 			return "";
 		}
 		

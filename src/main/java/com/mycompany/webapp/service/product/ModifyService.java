@@ -52,14 +52,16 @@ public class ModifyService {
 	@Transactional
 	public String getFilePath(MultipartFile toUploadFile) throws IllegalStateException, IOException {
 		log.info("실행");
-		if (toUploadFile.getOriginalFilename().equals("")) {
+		try {
+			if (toUploadFile.getOriginalFilename() == null || toUploadFile.getOriginalFilename().equals("")) {
+				return "";
+			}
+		} catch (NullPointerException e) {
 			return "";
 		}
-		else {
-			String s3Url = s3Uploader.uploadFile(toUploadFile, DIR_PATH);
-			log.info("s3Url = " + s3Url);
-			return s3Url;
-		}
+		String s3Url = s3Uploader.uploadFile(toUploadFile, DIR_PATH);
+		log.info("s3Url = " + s3Url);
+		return s3Url;
 	}
 	
 	/* 오늘 날짜 얻기 */

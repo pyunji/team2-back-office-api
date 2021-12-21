@@ -43,6 +43,33 @@
 				</if>
 			</if>
 		</where>
+		ORDER BY
+		<choose>
+			<when test="sortBy =='regDateDesc' or sortBy == null">
+			reg_date desc, pstockid
+			</when>
+			<when test="sortBy =='regDateAsc'">
+			reg_date asc, pstockid
+			</when>
+			<when test="sortBy =='stockAsc'">
+			stock asc, pstockid
+			</when>
+			<when test="sortBy =='stockDesc'">
+			stock desc, pstockid
+			</when>
+			<when test="sortBy =='salesAsc'">
+			sales asc, pstockid
+			</when>
+			<when test="sortBy =='salesDesc'">
+			sales desc, pstockid
+			</when>
+			<when test="sortBy =='pstockidAsc'">
+			pstockid asc
+			</when>
+			<when test="sortBy =='pstockidDesc'">
+			pstockid desc
+			</when>
+		</choose>
 		offset #{pager.startRowIndex} rows
 		fetch next #{pager.rowsPerPage} rows only
 	</select>

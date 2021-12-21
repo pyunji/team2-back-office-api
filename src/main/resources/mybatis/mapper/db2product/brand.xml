@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.webapp.dao.db2product.BrandDao">
+	<select id="selectOrderBrand"
+		resultType="String">
+		select bname
+		from brand join product_common using (bno) join product_color using
+		(pcommonid) join product_stock using (pcolorid)
+		where product_stock.pstockid = #{pstockid}
+	</select>
+
+</mapper>

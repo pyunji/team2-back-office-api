@@ -14,7 +14,12 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+
 import com.mycompany.webapp.dto.product.Brand;
+
+import com.mycompany.webapp.dto.order.OrderProductResult;
+import com.mycompany.webapp.dto.order.OrderSearchForm;
+
 import com.mycompany.webapp.dto.product.Depth1;
 import com.mycompany.webapp.dto.product.Depth2;
 import com.mycompany.webapp.dto.product.Depth3;
@@ -95,13 +100,24 @@ public class ProductController {
 		return "ok";
 	}
 	
+
 	@PostMapping("/returnfrombin")
 	public String returnFromBin(@RequestBody List<String> products) {
 		log.info("products = " + products);
 		binService.removeDelDate(products);
 		return "ok";
 	}
-	
+
+	/* 강제 영구 삭제 테스트 url 매핑입니다. */
+	/*
+	@PostMapping("/permdel")
+	public String permDel(@RequestBody List<String> products) {
+		log.info("products = " + products);
+		binService.permDel(products);
+		return "ok";
+	}
+	*/
+
 	@GetMapping("/brand")
 	public List<Brand> getBrandList() {
 		return addService.getBrandList();
@@ -159,6 +175,34 @@ public class ProductController {
 		
 		return addService.addProduct(productInfo);
 	}
+
+//	@PostMapping("/add")
+//	public String addProduct(
+//			@RequestPart ProductRegisterNormDto productInfo,
+//			@RequestPart MultipartFile img1,
+//			@RequestPart MultipartFile img2,
+//			@RequestPart MultipartFile img3,
+//			@RequestPart MultipartFile colorImg
+//			) {
+//		
+//		
+//		log.info("productInfo = " + productInfo);
+//		log.info("img1 = " + img1);
+//		log.info("img2 = " + img2);
+//		log.info("img3 = " + img3);
+//		log.info("colorImg = " + colorImg);
+//		
+//		return "success";
+////		return addService.addProduct(productInfo);
+
+//	@PostMapping("/search/productResult")
+//	public OrderProductResult getOrderProductResult(@RequestBody OrderSearchForm orderSearchForm) {
+//		log.info("OrderSearchForm 제대로 들어왔는지 확인" + orderSearchForm);
+//		OrderProductResult orderProductResult = searchService.selectOrderProductList(orderSearchForm);
+//		return OrderProductResult;
+
+//	}
+
 	
 	@PostMapping("/modify/process")
 	public ProductDto modifyProduct(
@@ -220,4 +264,5 @@ public class ProductController {
 	public ProductDto getOrgData(@RequestBody ModifyForm modifyForm) {
 		return modifyService.getOrgData(modifyForm);
 	}
+
 }
