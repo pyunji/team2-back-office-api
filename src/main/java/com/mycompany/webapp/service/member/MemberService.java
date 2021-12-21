@@ -11,6 +11,7 @@ import com.mycompany.webapp.dto.Pager;
 import com.mycompany.webapp.dto.member.MemberResult;
 import com.mycompany.webapp.dto.member.MemberSearchForm;
 import com.mycompany.webapp.vo.Grade;
+import com.mycompany.webapp.vo.GradeAdmin;
 import com.mycompany.webapp.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
@@ -52,5 +53,13 @@ public class MemberService {
 	
 	public List<Grade> getGrades() {
 		return memberDao.getGrades();
+	}
+	
+	public GradeAdmin getGradeAdmin() {
+		return memberDao.getGradeAdmin();
+	}
+	
+	public void updateGradeAdmin(GradeAdmin gradeAdmin) {
+		memberDao.updateGradeAdmin(gradeAdmin);
 	}
 }
