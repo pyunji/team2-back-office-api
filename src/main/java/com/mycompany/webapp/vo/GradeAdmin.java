@@ -5,6 +5,5 @@ import lombok.Data;
 @Data
 public class GradeAdmin {
 	private String id;
-	private int gradeCriteria;
 	private int criteriaPeriod;
 }

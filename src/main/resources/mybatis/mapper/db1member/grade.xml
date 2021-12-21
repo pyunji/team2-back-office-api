@@ -9,8 +9,7 @@
 		where id='admin'
 	</select>
 	<update id="updateGradeAdmin" parameterType="com.mycompany.webapp.vo.GradeAdmin">
-		update grade_admin set grade_criteria=#{gradeCriteria},
-							   criteria_period=#{criteriaPeriod}
+		update grade_admin set criteria_period=#{criteriaPeriod}
 		where id='admin'
 	</update>
 </mapper>

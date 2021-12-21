@@ -67,10 +67,12 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/grade/policy/update")
-	public String updateGradeAdmin(@RequestBody GradeAdmin gradeAdmin) {
+	public String updateGradeAdmin(@RequestBody GradeAdmin gradeAdmin) throws InterruptedException {
 		log.info("백오피스 updateGradeAdmin 실행");
 		log.info(gradeAdmin.toString());
 		memberService.updateGradeAdmin(gradeAdmin);
 		return "success";
 	}
+	
+	
 }
