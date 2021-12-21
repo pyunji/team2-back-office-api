@@ -26,6 +26,11 @@
 		fetch next #{pager.rowsPerPage} rows
 		only
 	</select>
+	<select id="selectOrderListAll" resultType="com.mycompany.webapp.dto.order.OrderDto">
+		select *
+		from orders join order_item using (oid)
+		where not ostatus in ('주문 취소')
+	</select>
 	<select id="getTotalOrderNum"
 		parameterType="com.mycompany.webapp.dto.order.OrderSearchForm"
 		resultType="int">

@@ -1,20 +1,19 @@
 package com.mycompany.webapp.service.product;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
 import com.mycompany.webapp.dao.db2product.DepthDao;
 import com.mycompany.webapp.dao.db2product.SearchDao;
 import com.mycompany.webapp.dto.Pager;
+import com.mycompany.webapp.dto.order.OrderProductResult;
+import com.mycompany.webapp.dto.order.OrderSearchForm;
 import com.mycompany.webapp.dto.product.Depth1;
 import com.mycompany.webapp.dto.product.Depth2;
 import com.mycompany.webapp.dto.product.Depth3;
-import com.mycompany.webapp.dto.product.ProductDto;
 import com.mycompany.webapp.dto.product.ProductResult;
 import com.mycompany.webapp.dto.product.SearchForm;
 
@@ -57,4 +56,10 @@ public class SearchService {
 		productResult.setPager(pager);
 		return productResult;
 	}
+	
+//	public OrderProductResult selectOrderProductList(OrderSearchForm orderSearchForm) {
+//		OrderProductResult orderProductResult = new OrderProductResult();
+//		orderProductResult.setPname(SearchDao.selectOrderProductDetail(orderSearchForm));
+//		return orderProductResult;
+//	}
 }
