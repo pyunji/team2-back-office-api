@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.mycompany.webapp.dao.db2product.SearchDao">
+<mapper namespace="com.mycompany.webapp.dao.db2product.BinDao">
 	<select id="selectProductList" parameterType="com.mycompany.webapp.dto.product.SearchForm" resultType="com.mycompany.webapp.dto.product.ProductDto"> 
 	select *
 	from product_stock join product_color using (pcolorid)
@@ -9,7 +9,7 @@
 		join product_category using(pcommonid)
 		join category using(catno)
 		<where>
-			AND del_date is null
+			AND del_date is not null
 			<if test = 'pstockid != null and pstockid neq ""'>
 			AND upper(pstockid) like upper('%'||#{pstockid}||'%')
 			</if>
@@ -25,6 +25,12 @@
 				</if>
 				<if test='endRegDate != null and endRegDate neq ""'>
 				<![CDATA[AND reg_date <= #{endRegDate}]]>
+				</if>
+				<if test='startDelDate != null and startDelDate neq ""'>
+				<![CDATA[AND del_date >= #{startDelDate}]]>
+				</if>
+				<if test='endDelDate != null and endDelDate neq ""'>
+				<![CDATA[AND del_date <= #{endDelDate}]]>
 				</if>
 				<if test='minStock != null and minStock neq ""'>
 				<![CDATA[AND stock >= #{minStock}]]>
@@ -43,33 +49,7 @@
 				</if>
 			</if>
 		</where>
-		ORDER BY
-		<choose>
-			<when test="sortBy =='regDateDesc' or sortBy == null">
-			reg_date desc, pstockid
-			</when>
-			<when test="sortBy =='regDateAsc'">
-			reg_date asc, pstockid
-			</when>
-			<when test="sortBy =='stockAsc'">
-			stock asc, pstockid
-			</when>
-			<when test="sortBy =='stockDesc'">
-			stock desc, pstockid
-			</when>
-			<when test="sortBy =='salesAsc'">
-			sales asc, pstockid
-			</when>
-			<when test="sortBy =='salesDesc'">
-			sales desc, pstockid
-			</when>
-			<when test="sortBy =='pstockidAsc'">
-			pstockid asc
-			</when>
-			<when test="sortBy =='pstockidDesc'">
-			pstockid desc
-			</when>
-		</choose>
+		order by del_date desc
 		offset #{pager.startRowIndex} rows
 		fetch next #{pager.rowsPerPage} rows only
 	</select>
@@ -81,7 +61,7 @@
 		join product_category using(pcommonid)
 		join category using(catno)
 		<where>
-			AND del_date is null
+			AND del_date is not null
 			<if test = 'pstockid != null and pstockid neq ""'>
 			AND upper(pstockid) like upper('%'||#{pstockid}||'%')
 			</if>
@@ -97,6 +77,12 @@
 				</if>
 				<if test='endRegDate != null and endRegDate neq ""'>
 				<![CDATA[AND reg_date <= #{endRegDate}]]>
+				</if>
+				<if test='startDelDate != null and startDelDate neq ""'>
+				<![CDATA[AND del_date >= #{startDelDate}]]>
+				</if>
+				<if test='endDelDate != null and endDelDate neq ""'>
+				<![CDATA[AND del_date <= #{endDelDate}]]>
 				</if>
 				<if test='minStock != null and minStock neq ""'>
 				<![CDATA[AND stock >= #{minStock}]]>
@@ -115,5 +101,65 @@
 				</if>
 			</if>
 		</where>
+	</select>
+	<update id="updateDelDate" parameterType="com.mycompany.webapp.dto.product.BinDto">
+		UPDATE product_stock
+		SET del_date = #{delDate}
+		WHERE pstockid IN 
+			<foreach collection="pstockids" item="item" separator="," open="(" close=")">
+			#{item}
+			</foreach>
+	</update>
+	
+	<select id="countPcommonidDependency" parameterType="String" resultType="int">
+		select count(*)
+		from product_common
+			join product_color using(pcommonid)
+			join product_stock using(pcolorid)
+		where pcommonid = #{pcommonid}
+	</select>
+	
+	<select id="countPcoloridDependency" parameterType="String" resultType="int">
+		select count(*)
+		from product_color
+			join product_stock using(pcolorid)
+		where pcolorid = #{pcolorid}
+	</select>
+
+	<delete id="delProductCategory" parameterType="String">
+	delete from product_category
+	where pcommonid = #{pcommonid}
+	</delete>
+
+	<delete id="delProductCommon" parameterType="String">
+	delete from product_common
+	where pcommonid = #{pcommonid}
+	</delete>
+
+	<delete id="delWithProduct" parameterType="String">
+	delete from with_product
+	where pcolorid = #{pcolorid}
+	</delete>
+	
+	<select id="selectImages" parameterType="String" resultType="com.mycompany.webapp.vo.ProductColor">
+	select *
+	from product_color
+	where pcolorid = #{pcolorid}
+	</select>
+
+	<delete id="delProductColor" parameterType="String">
+	delete from product_color
+	where pcolorid = #{pcolorid}
+	</delete>
+
+	<delete id="delProductStock" parameterType="String">
+	delete from product_stock
+	where pstockid = #{pstockid}
+	</delete>
+	
+	<select id="selectDelTargetPstockids" parameterType="java.sql.Date" resultType="String">
+	SELECT pstockid
+	FROM product_stock
+	WHERE #{delDay} - del_date > 30
 	</select>
 </mapper>
