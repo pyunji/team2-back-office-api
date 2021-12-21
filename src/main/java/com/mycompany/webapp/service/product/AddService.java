@@ -11,9 +11,12 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.mycompany.webapp.commons.S3Uploader;
 import com.mycompany.webapp.dao.db2product.AddDao;
 import com.mycompany.webapp.dao.db2product.DepthDao;
 import com.mycompany.webapp.dao.db2product.SearchDao;
@@ -49,21 +52,39 @@ public class AddService {
 		return addDao.selectSizes();
 	}
 	
-	/* 로컬에 파일 저장 & DB에 저장할 path 설정 */
+	@Autowired
+	private S3Uploader s3Uploader;
+	
+	/* AWS 디렉토리 설정 */
+	private static final String DIR_PATH = "product/";
+	
 	@Transactional
 	public String getFilePath(MultipartFile toUploadFile) throws IllegalStateException, IOException {
 		log.info("실행");
-		if (toUploadFile.getOriginalFilename().equals("")) {
+		try {
+			if (toUploadFile.getOriginalFilename() == null || toUploadFile.getOriginalFilename().equals("")) {
+				return "";
+			}
+		} catch (NullPointerException e) {
 			return "";
 		}
-		else {
-			String rootPath = "C:\\hyundai_itne\\eclipse-workspace\\team2-back-office-api\\src\\main\\resources\\static\\product";  
-			String attachPath = "/upload/";
-			String saveName = new Date().getTime() + "-" + toUploadFile.getOriginalFilename();
-			File file = new File(rootPath + attachPath + saveName);
-			toUploadFile.transferTo(file);
-			return attachPath + saveName;
-		}
+		
+		/* uploadFile 메서드
+		 * param: MultipartFile 타입의 파일과 디렉토리 path만 널어준다 
+		 * return: AWS에 저장된 이미지 주소를 반환한다.*/
+		String s3Url = s3Uploader.uploadFile(toUploadFile, DIR_PATH);
+		log.info("s3Url = " + s3Url);
+		return s3Url;
+		
+//		else {
+//			String rootPath = "C:\\hyundai_itne\\eclipse-workspace\\team2-back-office-api\\src\\main\\resources\\static\\product";
+//			String localPath = "http://localhost:83/product";
+//			String attachPath = "/upload/";
+//			String saveName = new Date().getTime() + "-" + toUploadFile.getOriginalFilename();
+//			File file = new File(rootPath + attachPath + saveName);
+//			toUploadFile.transferTo(file);
+//			return localPath+attachPath + saveName;
+//		}
 	}
 	
 	public String getRegDate() {
@@ -109,12 +130,19 @@ public class AddService {
 		
 		log.info("product = " + product);
 		
+		/* product_category 테이블에 데이터 삽입 */
 		insertProductCategory(product);
+		
+		/* product_common 테이블에 데이터 삽입 */
 		insertProductCommon(product);
+		
+		/* product_color 테이블에 데이터 삽입 */
 		insertProductColor(product);
+		
+		/* product_stock 테이블에 데이터 삽입 */
 		insertProductStock(product);
 		
-		
+		/* with_product 테이블에 데이터 삽입 */
 		if (productInfo.getWcolorid() != null && productInfo.getWcolorid() != "") {
 			WithProduct withProduct = new WithProduct();
 			withProduct.setPcolorid(product.getPcolorid());

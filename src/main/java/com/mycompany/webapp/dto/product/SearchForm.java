@@ -11,11 +11,14 @@ public class SearchForm {
 	String bname;
 	String startRegDate;
 	String endRegDate;
+	String startDelDate;
+	String endDelDate;
 	Integer minStock;
 	Integer maxStock;
 	String d1name;
 	String d2name;
 	String d3name;
 	int pageNo;
+	String sortBy;
 	Pager pager;
 }
