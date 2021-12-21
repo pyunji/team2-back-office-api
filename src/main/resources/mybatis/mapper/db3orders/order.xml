@@ -3,6 +3,6 @@
 <mapper namespace="com.mycompany.webapp.dao.db3orders.OrderDao">
 	<select id="selectPriceByMid" parameterType="String" resultType="int">
 		select before_dc_price from orders
-		where mid=#{mid}
+		where mid=#{mid} and ostatus='주문 완료'
 	</select>
 </mapper>

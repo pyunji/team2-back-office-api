@@ -83,4 +83,8 @@
 			</if>
 		</where>
 	</select>
+	<update id="updateEventStatus" parameterType="com.mycompany.webapp.vo.Event">
+		update event set estatus = #{estatus}
+		where eno = #{eno}
+	</update>
 </mapper>
