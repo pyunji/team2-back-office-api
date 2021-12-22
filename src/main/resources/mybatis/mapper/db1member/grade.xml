@@ -4,4 +4,12 @@
 	<select id="getGrades" resultType="com.mycompany.webapp.vo.Grade">
 		select * from grade
 	</select>
+	<select id="getGradeAdmin" resultType="com.mycompany.webapp.vo.GradeAdmin">
+		select * from grade_admin
+		where id='admin'
+	</select>
+	<update id="updateGradeAdmin" parameterType="com.mycompany.webapp.vo.GradeAdmin">
+		update grade_admin set criteria_period=#{criteriaPeriod}
+		where id='admin'
+	</update>
 </mapper>

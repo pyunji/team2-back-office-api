@@ -6,8 +6,8 @@
 	</select>
 	
 	<insert id="addEvent" parameterType="com.mycompany.webapp.vo.Event">
-		insert into event (eno, etitle, econtent,eissue_date, eexpire_date, elimit_count, ecount, eimg, estatus)
-		values ((eno_seq.nextval),#{etitle},#{econtent},#{eissueDate},#{eexpireDate}, #{elimitCount},0,#{eimg},0)
+		insert into event (eno, etitle, econtent,eissue_date, eexpire_date, elimit_count, ecount, eimg, estatus, ethumbnail)
+		values ((eno_seq.nextval),#{etitle},#{econtent},#{eissueDate},#{eexpireDate}, #{elimitCount},0,#{eimg},0, #{ethumbnail})
 	</insert>
 	
 	<select id="selectEventList" parameterType="com.mycompany.webapp.dto.event.EventSearchForm" resultType="com.mycompany.webapp.vo.Event">
@@ -83,4 +83,8 @@
 			</if>
 		</where>
 	</select>
+	<update id="updateEventStatus" parameterType="com.mycompany.webapp.vo.Event">
+		update event set estatus = #{estatus}
+		where eno = #{eno}
+	</update>
 </mapper>

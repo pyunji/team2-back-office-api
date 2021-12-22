@@ -175,6 +175,35 @@ public class ProductController {
 		
 		return addService.addProduct(productInfo);
 	}
+
+//	@PostMapping("/add")
+//	public String addProduct(
+//			@RequestPart ProductRegisterNormDto productInfo,
+//			@RequestPart MultipartFile img1,
+//			@RequestPart MultipartFile img2,
+//			@RequestPart MultipartFile img3,
+//			@RequestPart MultipartFile colorImg
+//			) {
+//		
+//		
+//		log.info("productInfo = " + productInfo);
+//		log.info("img1 = " + img1);
+//		log.info("img2 = " + img2);
+//		log.info("img3 = " + img3);
+//		log.info("colorImg = " + colorImg);
+//		
+//		return "success";
+////		return addService.addProduct(productInfo);
+
+//	@PostMapping("/search/productResult")
+//	public OrderProductResult getOrderProductResult(@RequestBody OrderSearchForm orderSearchForm) {
+//		log.info("OrderSearchForm 제대로 들어왔는지 확인" + orderSearchForm);
+//		OrderProductResult orderProductResult = searchService.selectOrderProductList(orderSearchForm);
+//		return OrderProductResult;
+
+//	}
+
+
 	
 	@PostMapping("/modify/process")
 	public ProductDto modifyProduct(
@@ -236,4 +265,5 @@ public class ProductController {
 	public ProductDto getOrgData(@RequestBody ModifyForm modifyForm) {
 		return modifyService.getOrgData(modifyForm);
 	}
+
 }

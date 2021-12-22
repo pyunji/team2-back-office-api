@@ -17,4 +17,5 @@ public class Event {
 	private int ecount;
 	private String eimg;
 	private int estatus;
+	private String ethumbnail;
 }
