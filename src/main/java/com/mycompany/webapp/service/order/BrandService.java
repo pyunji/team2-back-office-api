@@ -1,7 +1,9 @@
 package com.mycompany.webapp.service.order;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -12,6 +14,8 @@ import com.mycompany.webapp.dao.db2product.BrandDao;
 import com.mycompany.webapp.dao.db3orders.OrderSearchDao;
 import com.mycompany.webapp.dto.display.ShareByBrand;
 import com.mycompany.webapp.dto.display.ShareByBrandResult;
+import com.mycompany.webapp.dto.display.StatDto;
+import com.mycompany.webapp.dto.display.StatResult;
 import com.mycompany.webapp.dto.order.OrderResult;
 
 import lombok.extern.slf4j.Slf4j;
@@ -65,6 +69,46 @@ public class BrandService {
 		
 		
 		return shareByBrandResult;
+	}
+	public StatResult getStatByDay() {
+		
+		LocalDate now = LocalDate.now();
+		String day = now.toString();
+		day = day.replace("-", "/");
+		
+		StatResult statResult = new StatResult();
+		statResult.setStatDtoList(orderSearchDao.selectStatByDay(day));
+		
+		return statResult;
+	}
+	public StatResult getStatByMonth() {
+		StatResult statResult = new StatResult();
+		
+		
+		List<StatDto> list = new ArrayList();
+		String [] arr = {"01", "02","03","04","05","06","07","08","09","10","11","12"};
+		for(int i = 0; i < 12; i++) {
+			LocalDate now = LocalDate.now();
+			String day = now.toString();
+			day = day.replace("-", "/");
+			day = day.substring(0,5);
+			day = day + arr[i];
+			list.add(orderSearchDao.selectStatByMonth(day));
+		}
+		statResult.setStatDtoList(list);
+		return statResult;
+	}
+	
+	public StatResult getStatByYear() {
+		StatResult statResult = new StatResult();
+		LocalDate now = LocalDate.now();
+		String day = now.toString();
+		day = day.replace("-", "/");
+		day = day.substring(0,4);
+		orderSearchDao.selectStatByYear(day);
+		statResult.setStatDtoList(orderSearchDao.selectStatByYear(day));
+		
+		return statResult;
 	}
 
 }

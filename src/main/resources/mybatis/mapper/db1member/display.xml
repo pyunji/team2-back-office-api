@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycompany.webapp.dao.db1member.DisplayDao">
+
+	<select id="selectContext" resultType="com.mycompany.webapp.dto.display.ContextDto">
+		select *
+		from display
+	</select>
+	
+	<update id="updateContext" parameterType="com.mycompany.webapp.dto.display.ContextDto">
+		update display set context0 = #{context0},
+						   context1 = #{context1},
+						   context2 = #{context2},
+						   index0 = #{index0},
+						   index1 = #{index1},
+						   index2 = #{index2}
+	</update>
+</mapper>
