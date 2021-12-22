@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.webapp.dto.display.ShareByBrandResult;
+import com.mycompany.webapp.dto.display.StatResult;
 import com.mycompany.webapp.dto.order.CancelOid;
 import com.mycompany.webapp.dto.order.OrderResult;
 import com.mycompany.webapp.dto.order.OrderSearchForm;
@@ -58,5 +59,27 @@ public class OrderController {
 		
 	return 	shareByBrandResult;
 	}
+	@PostMapping("/getDataByDay")
+	public StatResult getDataByDay() {
+		
+		StatResult statResult = new StatResult();
+		statResult = brandService.getStatByDay();
+		return statResult;
+	}
+	@PostMapping("/getDataByMonth")
+	public StatResult getDataByMonth() {
+		
+		StatResult statResult = new StatResult();
+		statResult = brandService.getStatByMonth();
+		return statResult;
+	}
+	@PostMapping("/getDataByYear")
+	public StatResult getDataByYear() {
+		
+		StatResult statResult = new StatResult();
+		statResult = brandService.getStatByYear();
+		return statResult;
+	}
+	
 	  
 }

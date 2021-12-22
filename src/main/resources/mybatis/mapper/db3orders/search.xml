@@ -20,16 +20,48 @@
 			<if test='endRegDate != null and endRegDate neq ""'>
 				<![CDATA[AND odate <= #{endRegDate}]]>
 			</if>
+			<if test='oCsState0 != null and oCsState0 neq ""'>
+				OR ostatus = #{oCsState0}
+			</if>
+					<if test='oCsState1 != null and oCsState1 neq ""'>
+				OR ostatus = #{oCsState0}
+			</if>
+					<if test='oCsState2 != null and oCsState2 neq ""'>
+				OR ostatus = #{oCsState0}
+			</if>
+					<if test='oCsState3 != null and oCsState3 neq ""'>
+				OR ostatus = #{oCsState0}
+			</if>
+			
+			<if test='oDeliveryState0 != null and oDeliveryState0 neq ""'>
+				OR delivery_status = #{oDeliveryState0}
+			</if>
+						<if test='oDeliveryState1 != null and oDeliveryState1 neq ""'>
+				OR delivery_status = #{oDeliveryState1}
+			</if>
+						<if test='oDeliveryState2 != null and oDeliveryState2 neq ""'>
+				OR delivery_status = #{oDeliveryState2}
+			</if>
+						<if test='oDeliveryState3 != null and oDeliveryState3 neq ""'>
+				OR delivery_status = #{oDeliveryState3}
+			</if>
+						<if test='oDeliveryState4 != null and oDeliveryState4 neq ""'>
+				OR delivery_status = #{oDeliveryState4}
+			</if>
+			
+	 
 
 		</where>
 		offset #{pager.startRowIndex} rows
 		fetch next #{pager.rowsPerPage} rows
 		only
 	</select>
-	<select id="selectOrderListAll" resultType="com.mycompany.webapp.dto.order.OrderDto">
+	<select id="selectOrderListAll"
+		resultType="com.mycompany.webapp.dto.order.OrderDto">
 		select *
 		from orders join order_item using (oid)
-		where not ostatus in ('주문 취소')
+		where not
+		ostatus in ('주문 취소')
 	</select>
 	<select id="getTotalOrderNum"
 		parameterType="com.mycompany.webapp.dto.order.OrderSearchForm"
@@ -37,7 +69,7 @@
 		select count(*)
 		from orders join order_item using (oid)
 		<where>
-		<if test='oid != null and oid neq ""'>
+			<if test='oid != null and oid neq ""'>
 				AND oid = #{oid}
 			</if>
 			<if test='mid != null and mid neq ""'>
@@ -50,5 +82,35 @@
 				<![CDATA[AND odate <= #{endRegDate}]]>
 			</if>
 		</where>
+	</select>
+
+	<select id="selectStatByDay" parameterType="String"
+		resultType="com.mycompany.webapp.dto.display.StatDto">
+		select TO_CHAR(ODATE, 'YYYY/MM/DD') as day,
+		sum(after_dc_price) as sumbyday, count(*) as countbyday
+		from orders outer join order_item using (oid)
+		where ostatus = '주문 완료' and TO_CHAR(ODATE, 'YYYY/MM/DD') = #{day}
+		group by TO_CHAR(ODATE, 'YYYY/MM/DD')
+		order by day
+	</select>
+
+	<select id="selectStatByMonth" parameterType="String"
+		resultType="com.mycompany.webapp.dto.display.StatDto">
+		select TO_CHAR(ODATE, 'YYYY/MM') as day,
+		sum(after_dc_price) as sumbyday, count(*) as countbyday
+		from orders outer join order_item using (oid)
+		where ostatus = '주문 완료' and TO_CHAR(ODATE, 'YYYY/MM') = #{day}
+		group by TO_CHAR(ODATE, 'YYYY/MM')
+		order by day
+	</select>
+
+	<select id="selectStatByYear" parameterType="String"
+		resultType="com.mycompany.webapp.dto.display.StatDto">
+		select TO_CHAR(ODATE, 'YYYY') as day,
+		sum(after_dc_price) as sumbyday, count(*) as countbyday
+		from orders outer join order_item using (oid)
+		where ostatus = '주문 완료' and TO_CHAR(ODATE, 'YYYY') = #{day}
+		group by TO_CHAR(ODATE, 'YYYY')
+		order by day
 	</select>
 </mapper>
