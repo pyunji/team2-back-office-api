@@ -93,6 +93,20 @@
 		group by TO_CHAR(ODATE, 'YYYY/MM/DD')
 		order by day
 	</select>
+		<select id="selectScheduled" parameterType="String"
+		resultType="com.mycompany.webapp.dto.display.StatDto">
+		select TO_CHAR(ODATE, 'YYYY/MM/DD') as day,
+		sum(after_dc_price) as sumbyday, count(*) as countbyday
+		from orders outer join order_item using (oid)
+		where ostatus = '주문 완료' and TO_CHAR(ODATE, 'YYYY/MM/DD') = #{day}
+		group by TO_CHAR(ODATE, 'YYYY/MM/DD')
+		order by day
+	</select>
+	
+	<insert id="insertScheduled" parameterType="com.mycompany.webapp.dto.display.StatDto">
+insert into statistics (odate,totalorderprice, totalordercount) 
+values(#{day},#{sumbyday},#{countbyday})
+	</insert>
 
 	<select id="selectStatByMonth" parameterType="String"
 		resultType="com.mycompany.webapp.dto.display.StatDto">

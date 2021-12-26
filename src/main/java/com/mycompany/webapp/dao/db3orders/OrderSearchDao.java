@@ -20,4 +20,9 @@ public interface OrderSearchDao {
 	public List<StatDto> selectStatByDay(String day);
 	public StatDto selectStatByMonth(String day);
 	public List<StatDto> selectStatByYear(String day);
+	
+	//스케줄링 DAO
+	public StatDto selectScheduled(String day);
+	public void insertScheduled(StatDto statDto);
+	
 }

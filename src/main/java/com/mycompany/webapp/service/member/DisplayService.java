@@ -24,11 +24,11 @@ public class DisplayService {
 		//현재 구조를 받아옴
 		ContextDto contextResult = displayDao.selectContext();
 		System.out.println(contextResult.getContext0());
-		System.out.println(contextResult.getContext0());
-		System.out.println(contextResult.getContext0());
+		System.out.println(contextResult.getContext1());
+		System.out.println(contextResult.getContext2());
 		System.out.println(contextResult.getIndex0());
-		System.out.println(contextResult.getIndex0());
-		System.out.println(contextResult.getIndex0());
+		System.out.println(contextResult.getIndex1());
+		System.out.println(contextResult.getIndex2());
 		return contextResult;
 	}
 	
