@@ -83,7 +83,7 @@ public class BrandService {
 		return statResult;
 	}
 		
-		@Scheduled(cron = "59 23 * * * *") // 매 23시 59분마다 통계 테이블 업데이트
+	@Scheduled(cron="0 0 0 * * *") // 매 23시 59분마다 통계 테이블 업데이트
 		public void setStatByDay() {
 		
 		log.info("스케줄러 테스트");
