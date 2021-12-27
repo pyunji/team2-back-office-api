@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.mycompany.webapp.dao.db2product.BrandDao;
@@ -80,6 +81,22 @@ public class BrandService {
 		statResult.setStatDtoList(orderSearchDao.selectStatByDay(day));
 		
 		return statResult;
+	}
+		
+		@Scheduled(cron = "59 23 * * * *") // 매 23시 59분마다 통계 테이블 업데이트
+		public void setStatByDay() {
+		
+		log.info("스케줄러 테스트");
+		LocalDate now = LocalDate.now();
+		String day = now.toString();
+		day = day.replace("-", "/");
+		
+		StatResult statResult = new StatResult();
+		statResult.setStatDtoList(orderSearchDao.selectStatByDay(day));
+		
+		StatDto statDto = orderSearchDao.selectScheduled(day);
+		orderSearchDao.insertScheduled(statDto);
+
 	}
 	public StatResult getStatByMonth() {
 		StatResult statResult = new StatResult();
